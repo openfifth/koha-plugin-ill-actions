@@ -2,7 +2,7 @@ package Koha::Plugin::Com::PTFSEurope::IllActions;
 
 use Modern::Perl;
 
-use base            qw(Koha::IllActions::Base);
+use base            qw(Koha::Plugins::Base);
 use Koha::DateUtils qw( dt_from_string );
 
 use File::Basename qw( dirname );
@@ -26,7 +26,8 @@ our $metadata = {
     minimum_version => '23.11.00.000',
     maximum_version => undef,
     version         => $VERSION,
-    description     => 'ILL Actions'
+    description     => 'ILL Actions',
+    namespace       => 'ill_actions'
 };
 
 =head2 Plugin methods
@@ -92,6 +93,51 @@ sub configure {
     }
 }
 
+=head3 ill_table_actions
+
+Define ILL table actions
+
+=cut
+
+sub ill_table_actions {
+    my ( $self ) = @_;
+ 
+    return  {
+        button_class               => 'btn btn-default btn-sm',
+        button_link                => '/api/v1/contrib/ill_actions/new_request_for_patron/',
+        append_column_data_to_link => 1,
+        button_link_text           => 'New request for this user'
+    };
+}
+
+sub intranet_js {
+    my ($self) = @_;
+    return q|
+        <script>
+        if ( window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl?method=create") > -1 ) {
+            const searchParams = new URLSearchParams(window.location.search);
+            if(searchParams.has('cardnumber')){
+                $('#create_form #cardnumber').val(searchParams.get('cardnumber'));
+            }
+        }
+        </script>
+    |;
+}
+
+sub api_routes {
+    my ( $self, $args ) = @_;
+
+    my $spec_str = $self->mbf_read('openapi.json');
+    my $spec     = decode_json($spec_str);
+
+    return $spec;
+}
+
+sub api_namespace {
+    my ($self) = @_;
+
+    return 'ill_actions';
+}
 
 sub install() {
     return 1;

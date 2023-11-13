@@ -1,0 +1,51 @@
+
+{
+  "/new_request_for_patron/{ill_request_id}": {
+    "get": {
+      "x-mojo-to": "Com::PTFSEurope::IllActions::ApiController#new_request_for_patron",
+      "operationId": "NewRequestForPatron",
+      "tags": ["ill"],
+      "parameters": [
+        {
+          "name": "ill_request_id",
+          "in": "path",
+          "description": "Internal ill_request_id identifier",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "An ill request redirect",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "description": "success",
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "An error occured",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "x-koha-authorization": {
+        "permissions": {
+          "ill": "1"
+        }
+      }
+    }
+  }
+}
