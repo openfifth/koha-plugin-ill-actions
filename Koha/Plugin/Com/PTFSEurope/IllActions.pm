@@ -16,7 +16,7 @@ use File::Basename qw( dirname );
 use Koha::Libraries;
 use Koha::Patrons;
 
-our $VERSION = "1.0.0";
+our $VERSION = "1.0.1";
 
 our $metadata = {
     name            => 'IllActions',
@@ -100,14 +100,17 @@ Define ILL table actions
 =cut
 
 sub ill_table_actions {
-    my ( $self ) = @_;
- 
-    return  {
-        button_class               => 'btn btn-default btn-sm',
-        button_link                => '/api/v1/contrib/ill_actions/new_request_for_patron/',
-        append_column_data_to_link => 1,
-        button_link_text           => 'New request for this user'
-    };
+    my ( $self, $table_actions ) = @_;
+
+    push(
+        @{$$table_actions},
+        {
+            button_class               => 'btn btn-default btn-sm',
+            button_link                => '/api/v1/contrib/ill_actions/new_request_for_patron/',
+            append_column_data_to_link => 1,
+            button_link_text           => 'New request for this user'
+        }
+    );
 }
 
 sub intranet_js {
