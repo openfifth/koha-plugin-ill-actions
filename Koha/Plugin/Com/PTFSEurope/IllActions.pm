@@ -125,6 +125,36 @@ sub intranet_js {
     return $script;
 }
 
+# =head3 ill_available_actions
+
+# Pluggable by having
+#     Koha::Plugins->call( 'ill_available_actions', \@available_actions );
+# at the end of Illrequest::available_actions
+
+# Would be great to be able to plug in ILL available actions
+# but this requires a big overhaul in ill-requests.pl and ill-requests.tt
+# and I'm not sure it's worth it
+
+# For now, this functionality is included in intranet_js
+
+# =cut
+
+# sub ill_available_actions {
+#     my ( $self, $available_actions ) = @_;
+
+#     my $new_request_for_user = {
+#         name   => 'Edited item metadata',
+#         method => 'create',
+#         id             => undef,
+#         ui_method_icon => 'fa-plus',
+#         prev_actions   => [],
+#         ui_method_name => 'New request for this user',
+#         next_actions   => [],
+#     };
+
+#     push( @$available_actions, $new_request_for_user );
+# }
+
 sub api_routes {
     my ( $self, $args ) = @_;
 
