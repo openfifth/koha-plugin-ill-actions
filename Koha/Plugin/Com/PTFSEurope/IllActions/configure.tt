@@ -1,0 +1,102 @@
+[% INCLUDE 'doc-head-open.inc' %]
+<title>Koha: ILL Actions: Configuration</title>
+<style>
+    #ill_actions_config_h3 {
+        margin: 20px;
+    }
+
+    #ill_actions_configure {
+        display: block;
+        margin: 20px;
+    }
+
+    .ill_actions_config_field {
+        padding: 20px 10px;
+        margin: 20px 0;
+        background: #eee;
+        border-radius: 10px;
+        list-style: none;
+    }
+
+    #ill_actions_upgrade {
+        margin: 20px;
+    }
+
+    input#ill_actions_email_input {
+        min-width: 500px;
+    }
+
+    h4.section_header,
+    #submit_button {
+        margin-top: 40px;
+    }
+
+    .ill_config_field {
+        padding: 10px;
+        border-radius: 5px;
+        background: #F4F8F9;
+        margin: 10px 0;
+    }
+
+    .instruction {
+        margin-bottom: 10px;
+    }
+
+</style>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+<body>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; ILL Actions &rsaquo; Configuration</div>
+
+<div id="doc3">
+
+    <h3 id="ill_actions_config_h3">Koha: ILL Actions: Configuration</h3>
+    <form id="ill_actions_configure" method="get">
+        <input type="hidden" name="class" value="[% CLASS %]"/>
+        <input type="hidden" name="method" value="[% METHOD %]"/>
+        <h4 class="section_header">Table configuration</h4>
+        <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
+            <label for="table_new_request_for_user_input">Show "New request for this user" action button: </label>
+            [% IF config.new_request_for_user_table_button %]
+                <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
+            [% ELSE %]
+                <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
+            [% END %]
+        </div>
+        <h4 class="section_header">Manage request configuration</h4>
+        <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
+            <label for="manage_new_request_for_user_input">Show "New request for this user" manage toolbar button: </label>
+            [% IF config.new_request_for_user_manage_button %]
+                <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
+            [% ELSE %]
+                <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
+            [% END %]
+        </div>
+        <!--
+        <h4 class="section_header">Environment</h4>
+        <div id="ill_actions_environment" class="ill_config_field">
+            <input type="radio" id="ill_actions_environment_input_dev" name="environment" value="dev" [% IF config.environment == 'dev' || !config.environment %]checked[% END %]>
+            <label for="ill_actions_environment_input_dev">Development</label><br>
+            <input type="radio" id="ill_actions_environment_input_prod" name="environment" value="prod" [% IF config.environment == 'prod' %]checked[% END %]>
+            <label for="ill_actions_environment_input_prod">Production</label><br>
+        </div>
+        -->
+        <input type="hidden" name="save" value="1" />
+        <input id="submit_button" type="submit" value="Save configuration" />
+    </form>
+
+    <hr/>
+
+    <div id="ill_actions_upgrade">
+        <h5>Upgrade status</h5>
+        [% IF last_upgraded %]
+            Plugin was last upgraded on this system on [% last_upgraded | $KohaDates with_hours => 1 %]
+        [% ELSE %]
+            Plugin has never been upgraded.
+        [% END %]
+    </div>
+
+[% INCLUDE 'intranet-bottom.inc' %]

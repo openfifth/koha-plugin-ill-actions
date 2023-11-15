@@ -55,7 +55,7 @@ sub new {
     return $self;
 }
 
-=head3 new
+=head3 configure
 
 Optional I<Koha::Plugin> method if it implements configuration
 
@@ -79,7 +79,6 @@ sub configure {
         my $hashed    = { map { $_ => ( scalar $cgi->param($_) )[0] } $cgi->param };
         my $p         = {};
 
-        my $processinginstructions = {};
         foreach my $key ( keys %{$hashed} ) {
             if ( !exists $blacklist{$key} ) {
                 $p->{$key} = $hashed->{$key};
@@ -87,8 +86,8 @@ sub configure {
         }
 
         $self->store_data( { illactions_config => scalar encode_json($p) } );
-        print $cgi->redirect( -url =>
-                '/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::PTFSEurope::IllActions&method=configure' );
+        print $cgi->redirect(
+            -url => '/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::PTFSEurope::IllActions&method=configure' );
         exit;
     }
 }
@@ -158,6 +157,5 @@ sub upgrade {
 sub uninstall() {
     return 1;
 }
-
 
 1;

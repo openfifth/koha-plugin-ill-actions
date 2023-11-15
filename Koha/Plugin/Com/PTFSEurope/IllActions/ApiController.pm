@@ -23,17 +23,22 @@ use Mojo::Base 'Mojolicious::Controller';
 
 =head2 Class Methods
 
-=head3 Method that redirects to ILL create for a specific patron
+=head3 new_request_for_patron
+
+Redirects to ILL create form with a specific patron predefined
 
 =cut
 
 sub new_request_for_patron {
     my $c = shift->openapi->valid_input or return;
 
-    my $illrequest = Koha::Illrequests->find($c->param('ill_request_id'));
-    my $patron = Koha::Patrons->find( $illrequest->borrowernumber );
+    my $illrequest = Koha::Illrequests->find( $c->param('ill_request_id') );
+    my $patron     = Koha::Patrons->find( $illrequest->borrowernumber );
 
-    return $c->redirect_to( "/cgi-bin/koha/ill/ill-requests.pl?method=create&backend=" . $illrequest->backend . "&cardnumber=".$patron->cardnumber);
+    return $c->redirect_to( "/cgi-bin/koha/ill/ill-requests.pl?method=create&backend="
+            . $illrequest->backend
+            . "&cardnumber="
+            . $patron->cardnumber );
 }
 
 1;
