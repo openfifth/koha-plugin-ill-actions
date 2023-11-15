@@ -109,21 +109,20 @@ sub ill_table_actions {
             append_column_data_to_link => 1,
             button_link_text           => 'New request for this user'
         }
-    );
+    ) if $self->{config}->{new_request_for_user_table_button};
 }
 
 sub intranet_js {
     my ($self) = @_;
-    return q|
-        <script>
-        if ( window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl?method=create") > -1 ) {
-            const searchParams = new URLSearchParams(window.location.search);
-            if(searchParams.has('cardnumber')){
-                $('#create_form #cardnumber').val(searchParams.get('cardnumber'));
-            }
-        }
-        </script>
-    |;
+
+    my $script = '<script>';
+    $script .= $self->mbf_read('js/new_request_for_user_table_button.js')
+        if $self->{config}->{new_request_for_user_table_button};
+    $script .= $self->mbf_read('js/new_request_for_user_manage_button.js')
+        if $self->{config}->{new_request_for_user_manage_button};
+    $script .= '</script>';
+
+    return $script;
 }
 
 sub api_routes {
