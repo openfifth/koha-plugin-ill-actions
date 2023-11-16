@@ -173,6 +173,17 @@ sub api_namespace {
 }
 
 sub install() {
+    my ( $self ) = @_;
+
+    my $default_config = {
+        default_library_to_user_library    => "on",
+        new_request_for_user_manage_button => "on",
+        new_request_for_user_table_button  => "on",
+    };
+
+    $self->store_data( { illactions_config => scalar encode_json($default_config) } )
+        unless $self->retrieve_data('illactions_config');
+
     return 1;
 }
 
