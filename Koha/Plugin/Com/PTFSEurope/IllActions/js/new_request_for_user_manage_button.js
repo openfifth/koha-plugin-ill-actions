@@ -1,8 +1,4 @@
-if (
-  window.location.href.indexOf(
-    "/cgi-bin/koha/ill/ill-requests.pl?method=illview"
-  ) > -1
-) {
+if (is_illview_page) {
   const searchParams = new URLSearchParams(window.location.search);
   if (searchParams.has("illrequest_id")) {
     const el =
