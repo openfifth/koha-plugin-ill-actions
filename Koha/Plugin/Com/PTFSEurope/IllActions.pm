@@ -123,6 +123,8 @@ sub intranet_js {
         if $self->{config}->{new_request_for_user_manage_button};
     $script .= $self->mbf_read('js/default_library_to_user_library.js')
         if $self->{config}->{default_library_to_user_library};
+    $script .= $self->mbf_read('js/quick_add_user.js')
+        if $self->{config}->{quick_add_user};
     $script .= '</script>';
 
     return $script;
@@ -174,12 +176,13 @@ sub api_namespace {
 }
 
 sub install() {
-    my ( $self ) = @_;
+    my ($self) = @_;
 
     my $default_config = {
         default_library_to_user_library    => "on",
         new_request_for_user_manage_button => "on",
         new_request_for_user_table_button  => "on",
+        quick_add_user                     => "on",
     };
 
     $self->store_data( { illactions_config => scalar encode_json($default_config) } )

@@ -86,6 +86,15 @@
             [% END %]
             <p>The request's destination library will be set to match the selected patron's library</p>
         </div>
+        <div id="ill_actions_quick_add_user" class="ill_config_field">
+            <label for="quick_add_user_input">Show "+Add new user" link</label>
+            [% IF config.quick_add_user %]
+                <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
+            [% ELSE %]
+                <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
+            [% END %]
+            <p>A link is shown next to the cardnumber input allowing to quickly add a new user</p>
+        </div>
         <!--
         <h4 class="section_header">Environment</h4>
         <div id="ill_actions_environment" class="ill_config_field">
