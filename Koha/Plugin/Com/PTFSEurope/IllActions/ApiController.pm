@@ -41,4 +41,29 @@ sub new_request_for_patron {
             . $patron->cardnumber );
 }
 
+=head3 get_branchcode_from_cardnumber
+
+Returns the corresponding patron's library given their cardnumber
+
+=cut
+
+sub get_branchcode_from_cardnumber {
+    my $c = shift->openapi->valid_input or return;
+
+    my $patron = Koha::Patrons->find( { cardnumber => $c->param('cardnumber') } );
+
+    unless ($patron) {
+        return $c->render(
+            status  => '404',
+            openapi =>
+                { errors => [ { message => "Patron not found for given cardnumber " . $c->param('cardnumber') } ] }
+        );
+    }
+
+    return $c->render(
+        status  => '200',
+        openapi => $patron->branchcode
+    );
+}
+
 1;

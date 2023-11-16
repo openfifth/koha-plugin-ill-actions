@@ -1,4 +1,3 @@
-
 {
   "/new_request_for_patron/{ill_request_id}": {
     "get": {
@@ -26,6 +25,48 @@
                 "type": "boolean"
               }
             }
+          }
+        },
+        "404": {
+          "description": "An error occured",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "x-koha-authorization": {
+        "permissions": {
+          "ill": "1"
+        }
+      }
+    }
+  },
+  "/get_branchcode_from_cardnumber/{cardnumber}": {
+    "get": {
+      "x-mojo-to": "Com::PTFSEurope::IllActions::ApiController#get_branchcode_from_cardnumber",
+      "operationId": "GetBranchcodeFromCardnumber",
+      "tags": ["ill"],
+      "parameters": [
+        {
+          "name": "cardnumber",
+          "in": "path",
+          "description": "Internal patron cardnumber",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "produces": ["text/plain"],
+      "responses": {
+        "200": {
+          "description": "A branchcode",
+          "schema": {
+            "type": "string"
           }
         },
         "404": {
