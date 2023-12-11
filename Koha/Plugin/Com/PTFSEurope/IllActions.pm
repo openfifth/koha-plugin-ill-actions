@@ -116,7 +116,7 @@ sub intranet_js {
     my ($self) = @_;
 
     my $script = '<script>';
-    $script .= $self->mbf_read('js/config.js');
+    $script .= $self->mbf_read('js/init.js');
     $script .= $self->mbf_read('js/new_request_for_user_table_button.js')
         if $self->{config}->{new_request_for_user_table_button};
     $script .= $self->mbf_read('js/new_request_for_user_manage_button.js')
