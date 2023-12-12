@@ -58,7 +58,7 @@
           "in": "path",
           "description": "Internal patron cardnumber",
           "required": true,
-          "type": "integer"
+          "type": "string"
         }
       ],
       "produces": ["text/plain"],

@@ -14,7 +14,7 @@ if (is_create_page) {
     if (!initial_check || current_value !== previous_value) {
       previous_value = current_value;
 
-      if (isNaN(current_value) || !current_value) {
+      if (!current_value) {
         return;
       }
 
