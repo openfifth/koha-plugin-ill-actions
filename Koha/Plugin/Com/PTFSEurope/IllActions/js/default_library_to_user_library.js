@@ -24,7 +24,7 @@ if (is_create_page) {
           create_form_cardnumber_input.val(),
         success: function (result) {
           if (create_form_branchcode_input.val() != result) {
-            create_form_branchcode_input.val(result);
+            create_form_branchcode_input.val(result).change();
 
             $("#ill_actions_plugin_toast").fadeIn("slow", function () {
               $("#ill_actions_plugin_toast").delay(1000).fadeOut("slow");
