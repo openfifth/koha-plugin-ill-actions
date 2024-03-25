@@ -32,7 +32,7 @@ Redirects to ILL create form with a specific patron predefined
 sub new_request_for_patron {
     my $c = shift->openapi->valid_input or return;
 
-    my $illrequest = Koha::Illrequests->find( $c->param('ill_request_id') );
+    my $illrequest = Koha::ILL::Requests->find( $c->param('ill_request_id') );
     my $patron     = Koha::Patrons->find( $illrequest->borrowernumber );
 
     return $c->redirect_to( "/cgi-bin/koha/ill/ill-requests.pl?method=create&backend="
