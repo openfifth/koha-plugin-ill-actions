@@ -16,14 +16,14 @@ use File::Basename qw( dirname );
 use Koha::Libraries;
 use Koha::Patrons;
 
-our $VERSION = "1.3.1";
+our $VERSION = "1.4.0";
 
 our $metadata = {
     name            => 'IllActions',
     author          => 'PTFS-Europe',
     date_authored   => '2023-10-30',
-    date_updated    => '2024-03-27',
-    minimum_version => '23.11.00.000',
+    date_updated    => '2025-01-20',
+    minimum_version => '25.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
     description     => 'ILL Actions',
