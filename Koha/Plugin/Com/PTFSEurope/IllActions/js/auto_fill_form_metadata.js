@@ -35,7 +35,7 @@
                 $('#article_author').val(result.authors?.map(function(a) {
                     return a.name;
                 }).join('; '));
-                $('#chapter_author').val(message.author?.map(function(a) {
+                $('#chapter_author').val(result.author?.map(function(a) {
                     return a.given + ' ' + a.family;
                 }).join('. '));
                 $('#aulast').val("");
