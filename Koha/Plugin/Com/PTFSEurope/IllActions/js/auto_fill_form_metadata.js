@@ -135,6 +135,8 @@
   // Manage the presence of the DOI field
   var manageIdentifier = function() {
 
+      $('#auto-fill-container').remove();
+
       // If this is the wrong material type, we may need to remove the field
       if ( backend != 'ReprintsDesk' && backends[backend].materialTypes.indexOf(select.val()) === -1 ) {
         $('input#doi').parent("li").remove();
@@ -199,6 +201,14 @@
           }
       }
 
+      var newFieldset = $('<fieldset id="auto-fill-container" class="rows"><ol></ol></fieldset>');
+      $('#create_form').prepend(newFieldset);
+      newFieldset.children('ol').prepend(getAutoFillMessage('tip'));
+      newFieldset.children('ol').append(doiField.parent());
+      if(pubmedidField?.length){
+          newFieldset.children('ol').append(pubmedidField.parent());
+      }
+
       manageListener();
   };
 
@@ -208,6 +218,11 @@
           $(doiField).off('input');
           // Add our own
           $(doiField).on('input', function() {
+            if(!$('#auto-fill-loading').length && doiField.val().length > 0){
+                $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
+                $('#auto-fill-result').remove();
+                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="doi"]').not('input[name="cardnumber"]').val('');
+            }
              // Kick off lookup
              debounce(crossref, 1000)(doiField.val());
           });
@@ -226,6 +241,11 @@
         $(pubmedidField).off('input');
         // Add our own
         $(pubmedidField).on('input', function() {
+            if(!$('#auto-fill-loading').length && pubmedidField.val().length > 0){
+                $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
+                $('#auto-fill-result').remove();
+                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="pubmedid"]').not('input[name="cardnumber"]').val('');
+            }
            // Kick off lookup
            debounce(pubmedid, 1000)(pubmedidField.val());
         });
@@ -239,7 +259,16 @@
       $.ajax({
           dataType: "json",
           url: url,
-          success: backends[backend].parser
+          success: function(data){
+            backends[backend].parser(data);
+            $('#auto-fill-container ol').append(getAutoFillMessage('success'));
+          },
+          error: function() {
+              $('#auto-fill-container ol').append(getAutoFillMessage('error'));
+          },
+          complete: function() {
+              $('#auto-fill-loading').remove();
+          },
       });
   };
 
@@ -250,7 +279,22 @@
       $.ajax({
           dataType: "json",
           url: url,
-          success: backends[backend].parser
+          success: function(data){
+            if(data['error']){
+              $('#auto-fill-container ol').append(getAutoFillMessage('error'));
+            } else if(data['result'][pubmedidField.val()]['error']){
+              $('#auto-fill-container ol').append(getAutoFillMessage('error'));
+            }else{
+              backends[backend].parser(data);
+              $('#auto-fill-container ol').append(getAutoFillMessage('success'));
+            }
+          },
+          error: function() {
+              $('#auto-fill-container ol').append(getAutoFillMessage('error'));
+          },
+          complete: function() {
+              $('#auto-fill-loading').remove();
+          },
       });
   };
 
@@ -269,6 +313,16 @@
           timeout = setTimeout(later, wait);
           if (callNow) func.apply(context, args);
       };
+  }
+
+  function getAutoFillMessage(message){
+    let messages = {
+        error: '<li id="auto-fill-result"><label class="text-danger">Error</label><span class="text-danger"><i class="fa-solid fa-xmark"></i> Couldn\'t add metadata</span></li>',
+        loading: '<li id="auto-fill-loading"><label class="text-info">Loading</label><span class="text-info"><i class="fa fa-spinner fa-pulse fa-fw"></i> Attemping to fetch metadata...</span></li>',
+        success: '<li id="auto-fill-result"><label class="text-success">Success</label><span class="text-success"><i class="fa-solid fa-check"></i> Metadata added</span></li>',
+        tip: '<li><label class="text-info">Top tip!</label><span class="text-info"><i class="fa-solid fa-info-circle"></i> Add the DOI or PubMed ID and the other fields will auto-fill</span></li>'
+    };
+    return messages[message];
   }
 
   manageIdentifier();
