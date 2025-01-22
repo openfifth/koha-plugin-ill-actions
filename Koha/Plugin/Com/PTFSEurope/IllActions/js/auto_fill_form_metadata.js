@@ -41,7 +41,7 @@
                 $('#aulast').val("");
                 $('#title').val(result.fulljournalname);
                 $('#issn').val(result.issn);
-                $('#published_date').val(result.sortpubdate.slice(0,4));
+                $('#published_date').val(result.sortpubdate?.slice(0,4));
             }
         }
   };
