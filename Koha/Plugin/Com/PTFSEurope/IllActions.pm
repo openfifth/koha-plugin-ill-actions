@@ -125,6 +125,19 @@ sub intranet_js {
         if $self->{config}->{default_library_to_user_library};
     $script .= $self->mbf_read('js/quick_add_user.js')
         if $self->{config}->{quick_add_user};
+    $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
+        if $self->{config}->{auto_fill_form_metadata_staff};
+    $script .= '</script>';
+
+    return $script;
+}
+
+sub opac_js {
+    my ($self) = @_;
+
+    my $script = '<script>';
+    $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
+        if $self->{config}->{auto_fill_form_metadata_opac};
     $script .= '</script>';
 
     return $script;
@@ -179,6 +192,8 @@ sub install() {
     my ($self) = @_;
 
     my $default_config = {
+        auto_fill_form_metadata_staff      => "on",
+        auto_fill_form_metadata_opac       => "on",
         default_library_to_user_library    => "on",
         new_request_for_user_manage_button => "on",
         new_request_for_user_table_button  => "on",
