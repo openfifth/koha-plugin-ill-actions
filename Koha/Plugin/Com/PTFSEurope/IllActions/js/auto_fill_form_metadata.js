@@ -181,13 +181,22 @@
       }
     
       // Add the Pubmedid if appropriate
-      if (!pubmedidField && backend == 'FreeForm') {
+      if (!pubmedidField && backend == 'FreeForm' || backend == 'Standard') {
           var pubmedid_el = '<li id="js_pubmedid">' +
-               '<label id="pubmedid" for="pubmedid">PubMed ID</label>' +
+               '<label id="pubmedid" for="pubmedid">PubMed ID:</label>' +
                '<input type="text" name="pubmedid" id="pubmedid" value="">' +
                '</li>';
-          $("#article-freeform-fields").append(pubmedid_el);
-          pubmedidField = $('#article-freeform-fields').find('input#pubmedid').first();
+          select.parent().append(pubmedid_el);
+          pubmedidField = $('#article-standard-fields, #article-freeform-fields').find('input#pubmedid').first();
+          if(doiField?.length){
+            var doiClasses = doiField.attr('class');
+            if(doiClasses?.length){
+                pubmedidField.addClass(doiClasses);
+            }
+          }
+          if(!pubmedidField.length){
+            pubmedidField = select.parent().find('input#pubmedid').first();
+          }
       }
 
       manageListener();
