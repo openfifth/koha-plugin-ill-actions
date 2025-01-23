@@ -164,8 +164,8 @@
 
       // Add the DOI if appropriate
       if (!doiField) {
-          var doi_el = '<li style="margin-top:1rem;margin-bottom:1rem;" id="js_doi">' +
-               '<label id="doi" for="doi">DOI</label>' +
+          var doi_el = '<li id="js_doi">' +
+               '<label id="doi" for="doi">DOI:</label>' +
                '<input type="text" name="doi" id="doi" value="">' +
                '</li>';
           select.parent().append(doi_el);
