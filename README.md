@@ -4,6 +4,7 @@ A plugin containing enhanced custom actions in the ILL module
 ## Implements the following hooks
 * ill_table_actions
 * intranet_js
+* opac_js
 * api_routes
 
 ## Requires the following bugs
