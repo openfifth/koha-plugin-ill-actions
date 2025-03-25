@@ -213,7 +213,7 @@ if (is_create_page) {
                               class="fa fa-spinner fa-pulse fa-fw"
                               style="display:none"></i></button>
                       <button type="button" class="btn btn-default"
-                          data-dismiss="modal">Cancel</button>
+                          data-bs-dismiss="modal">Cancel</button>
                   </div> <!-- /.modal-footer -->
               </div> <!-- /.modal-content -->
           </div> <!-- /.modal-dialog -->
