@@ -159,12 +159,8 @@ if (is_create_page) {
           <div class="modal-dialog modal-md" role="document">
               <div class="modal-content modal-md">
                   <div class="modal-header">
-                      <button type="button" class="closebtn" data-dismiss="modal"
-                          aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                      <h4 class="modal-title" id="addQuickAddUserModalLabel">Add patron
-                      </h4>
+                      <h1 class="modal-title" id="add-group-modal-label">Add patron</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
                       <fieldset class="rows" id="quick_add_user_fieldset">
