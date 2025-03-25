@@ -116,7 +116,7 @@ if (is_create_page) {
         $("#surname_quick_add").val("");
         $("#cardnumber_quick_add").val("");
         $("#toolbar").before(
-          '<div class="dialog message">' +
+          '<div class="alert alert-info">' +
             __(
               'Patron sucessfully created: </br> <strong><a target="_blank" href="/cgi-bin/koha/members/moremember.pl?borrowernumber=' +
                 data.patron_id +
