@@ -179,7 +179,7 @@
                '<input type="text" name="pubmedid" id="pubmedid" value="">' +
                '</li>';
           select.parent().append(pubmedid_el);
-          pubmedidField = $('#article-standard-fields, #article-freeform-fields').find('input#pubmedid').first();
+          pubmedidField = $('input#pubmedid');
           if(doiField?.length){
             var doiClasses = doiField.attr('class');
             if(doiClasses?.length){
