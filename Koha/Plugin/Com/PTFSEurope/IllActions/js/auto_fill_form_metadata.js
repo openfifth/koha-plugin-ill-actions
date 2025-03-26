@@ -211,7 +211,7 @@
             if(!$('#auto-fill-loading').length && doiField.val().length > 0){
                 $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
                 $('#auto-fill-result').remove();
-                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="doi"]').not('input[name="cardnumber"]').val('');
+                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="doi"]').not('input[name="cardnumber"]').not('input[name="unauthenticated_first_name"]').not('input[name="unauthenticated_last_name"]').not('input[name="unauthenticated_email"]').val('');
             }
              // Kick off lookup
              debounce(crossref, 1000)(doiField.val());
