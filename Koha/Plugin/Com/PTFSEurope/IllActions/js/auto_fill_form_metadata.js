@@ -21,7 +21,7 @@
                 $('#issn').val(message.ISSN[0]);
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
                     $('#year').val(message.published['date-parts'][0][0]);
-                    $('#published_date').val(message.published['date-parts'].join('-'));
+                    $('#published_date').val(message.published['date-parts'][0].join('-'));
                 }
             }
             if(typeof data.result !== 'undefined'){
