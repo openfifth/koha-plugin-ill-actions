@@ -211,7 +211,7 @@
             if(!$('#auto-fill-loading').length && doiField.val().length > 0){
                 $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
                 $('#auto-fill-result').remove();
-                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="doi"]').not('input[name="cardnumber"]').not('input[name="unauthenticated_first_name"]').not('input[name="unauthenticated_last_name"]').not('input[name="unauthenticated_email"]').val('');
+                $('#create_form input[type="text"]').not('[name="backend"]').not('[name="doi"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
             }
              // Kick off lookup
              debounce(crossref, 1000)(doiField.val());
@@ -225,7 +225,7 @@
             if(!$('#auto-fill-loading').length && pubmedidField.val().length > 0){
                 $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
                 $('#auto-fill-result').remove();
-                $('#create_form').find('input[type="text"]').not('input[name="backend"]').not('input[name="pubmedid"]').not('input[name="cardnumber"]').val('');
+                $('#create_form input[type="text"]').not('[name="backend"]').not('[name="pubmedid"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
             }
            // Kick off lookup
            debounce(pubmedid, 1000)(pubmedidField.val());
