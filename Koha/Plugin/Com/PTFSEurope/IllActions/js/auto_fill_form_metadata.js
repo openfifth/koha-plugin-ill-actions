@@ -117,7 +117,8 @@
   var select = $('select#type[name=' + backends[backend].selectName + ']');
   
   var reg = new RegExp(/opac/);
-  var inputs = reg.test(window.location.pathname) ?
+  var isOPAC = reg.test(window.location.pathname);
+  var inputs = isOPAC ?
       $('#illrequests input') :
       $('#interlibraryloans input');
 
@@ -192,7 +193,15 @@
       }
 
       var newFieldset = $('<fieldset id="auto-fill-container" class="rows"><ol></ol></fieldset>');
-      $('#create_form').prepend(newFieldset);
+      if( backend == 'Standard' ){
+        if( isOPAC ){
+          $('#create_form fieldset:eq(1)').after(newFieldset);
+        }else{
+          $('#create_form fieldset:first').after(newFieldset);
+        }
+      }else{
+        $('#create_form').prepend(newFieldset);
+      }
       newFieldset.children('ol').prepend(getAutoFillMessage('tip'));
       newFieldset.children('ol').append(doiField.parent());
       if(pubmedidField?.length){
