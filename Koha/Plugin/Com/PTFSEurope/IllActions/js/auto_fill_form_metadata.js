@@ -11,7 +11,7 @@
                 $('#article_title').val(message.title.join('. '));
                 $('#chapter').val(message.title.join('. '));
                 $('#volume').val(message.volume);
-                $('#article_author').val(message.author?.map(function(a) {
+                $('#article_author').val(message.author?.slice(0, 10).map(function(a) {
                     return a.given + ' ' + a.family;
                 }).join('. '));
                 $('#chapter_author').val(message.author?.map(function(a) {
@@ -32,7 +32,7 @@
                 $('#article_title').val(result.title);
                 $('#chapter').val(result.title);
                 $('#volume').val(result.volume);
-                $('#article_author').val(result.authors?.map(function(a) {
+                $('#article_author').val(result.authors?.slice(0, 10).map(function(a) {
                     return a.name;
                 }).join('; '));
                 $('#chapter_author').val(result.author?.map(function(a) {
@@ -56,10 +56,10 @@
                 $('#pages').val(message.page);
                 $('#atitle').val(message.title.join('. '));
                 $('#volume').val(message.volume);
-                $('#aufirst').val(message.author?.map(function(a) {
+                $('#aufirst').val(message.author?.slice(0, 10).map(function(a) {
                     return a.given;
                 }).join('; '));
-                $('#aulast').val(message.author?.map(function(a) {
+                $('#aulast').val(message.author?.slice(0, 10).map(function(a) {
                     return a.family;
                 }).join('; '));
                 $('#title').val(message['container-title'].join('. '));
@@ -73,7 +73,7 @@
                 $('#pages').val(result.pages);
                 $('#atitle').val(result.title);
                 $('#volume').val(result.volume);
-                $('#aufirst').val(result.authors?.map(function(a) {
+                $('#aufirst').val(result.authors?.slice(0, 10).map(function(a) {
                     return a.name;
                 }).join('; '));
                 $('#aulast').val("");
@@ -92,7 +92,7 @@
               $('#ArticlePages').val(message.page).trigger("keyup");
               $('#ArticleTitle').val(message.title.join('. ')).trigger("keyup");
               $('#JournalVol').val(message.volume).trigger("keyup");
-              $('#ArticleAuthor').val(message.author?.map(function(a) {
+              $('#ArticleAuthor').val(message.author?.slice(0, 10).map(function(a) {
                   return a.given + ' ' + a.family;
               }).join('. ')).trigger("keyup");
               $('#PatronJournalTitle').val(message['container-title'].join('. ')).trigger("keyup");
