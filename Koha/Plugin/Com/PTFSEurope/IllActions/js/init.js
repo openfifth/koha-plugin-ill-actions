@@ -1,5 +1,6 @@
 const create_form_cardnumber_input = $("#create_form #cardnumber");
 const create_form_branchcode_input = $("#create_form #branchcode");
+const edit_form_cardnumber_input = $("#ill_edit_action_form #borrowernumber");
 
 const is_create_page =
   window.location.href.indexOf(
@@ -14,3 +15,7 @@ const is_illview_page =
     -1 ||
   window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl?op=illview") >
     -1;
+
+const is_edit_page =
+  window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl") > -1 &&
+  window.location.href.indexOf("op=edit_action") > -1;

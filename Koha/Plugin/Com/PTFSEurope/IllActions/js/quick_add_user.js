@@ -1,5 +1,8 @@
-if (is_create_page) {
-  create_form_cardnumber_input
+if (is_create_page || is_edit_page) {
+
+  let input = is_create_page ? create_form_cardnumber_input : edit_form_cardnumber_input;
+
+  input
     .parent()
     .append('<a id="quick_add_user_button"  href="#">+ Add new user</a>');
 
@@ -128,7 +131,7 @@ if (is_create_page) {
             ) +
             "</div>"
         );
-        create_form_cardnumber_input.val(data.cardnumber);
+        input.val(data.cardnumber);
       },
       error: function (data) {
         console.log(data);
@@ -247,7 +250,7 @@ if (is_create_page) {
   //     console.log("popstate_callback");
   //   }
 
-  // create_form_cardnumber_input
+  // input
   //   .parent()
   //   .append('<a id="quick_add_user_button"  href="#">+ Add new user</a>');
 
