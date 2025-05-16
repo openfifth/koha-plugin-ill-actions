@@ -6,7 +6,8 @@ const is_create_page =
     "/cgi-bin/koha/ill/ill-requests.pl?method=create"
   ) > -1 ||
   window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl?op=create") >
-    -1;
+    -1 ||
+  document.getElementById("create_form") !== null;
 
 const is_illview_page =
   window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl?op=illview") >
