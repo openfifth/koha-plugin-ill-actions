@@ -108,11 +108,11 @@
   // Establish our backend
   var backend_names = Object.keys(backends).join('|');
   var re = new RegExp('backend=(' + backend_names + ')');
-  var backend_match = window.location.search.match(re);
+  var backend_match = window.location.search.match(re) || $('input[name="backend"]').val();
   
   if (!backend_match) return;
   
-  var backend = backend_match[1];
+  var backend = backend_match && Array.isArray(backend_match) ? backend_match[1] : backend_match;
 
   var select = $('select#type[name=' + backends[backend].selectName + ']');
   
