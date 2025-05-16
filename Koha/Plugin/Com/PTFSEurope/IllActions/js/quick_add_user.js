@@ -28,6 +28,7 @@ if (is_create_page || is_edit_page) {
       _POSTPatron({
         surname: $("#surname_quick_add").val(),
         cardnumber: $("#cardnumber_quick_add").val(),
+        email: $("#email_quick_add").val(),
         library_id: $("#libraries_quick_add").val(),
         category_id: $("#categorycode_entry_quick_add").val(),
       });
@@ -189,6 +190,12 @@ if (is_create_page || is_edit_page) {
                                   <div class="hint">Card number must be between 1 and 32 characters.
                                   </div>
                                   <!--/div.hint -->
+                              </li>
+                              <li>
+                                  <label for="email">
+                                      Email: </label>
+                                  <input type="text" id="email_quick_add" name="email" size="20"
+                                      value="" class="noEnterSubmit">
                               </li>
                               <li>
                                   <label for="libraries" class="required">Library:</label>
