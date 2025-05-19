@@ -65,16 +65,13 @@ sub configure {
     my ( $self, $args ) = @_;
     my $cgi = $self->{'cgi'};
 
-    unless ( $cgi->param('save') ) {
-        my $template = $self->get_template( { file => 'configure.tt' } );
-        my $config   = $self->{config};
-
-        $template->param(
-            config => $self->{config},
-            cwd    => dirname(__FILE__)
-        );
-        $self->output_html( $template->output() );
-    } else {
+    my $template = $self->get_template( { file => 'configure.tt' } );
+    my $config   = $self->{config};
+    $template->param(
+        config => $self->{config},
+        cwd    => dirname(__FILE__)
+    );
+    if ( $cgi->param('save') ) {
         my %blacklist = ( 'save' => 1, 'class' => 1, 'method' => 1 );
         my $hashed    = { map { $_ => ( scalar $cgi->param($_) )[0] } $cgi->param };
         my $p         = {};
@@ -86,10 +83,12 @@ sub configure {
         }
 
         $self->store_data( { illactions_config => scalar encode_json($p) } );
-        print $cgi->redirect(
-            -url => '/cgi-bin/koha/plugins/run.pl?class=Koha::Plugin::Com::PTFSEurope::IllActions&method=configure' );
-        exit;
+        $template->param(
+            config => decode_json( $self->retrieve_data('illactions_config') || '{}' ),
+            saved  => 1,
+        );
     }
+    $self->output_html( $template->output() );
 }
 
 =head3 ill_table_actions

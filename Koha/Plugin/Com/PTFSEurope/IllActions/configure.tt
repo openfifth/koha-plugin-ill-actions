@@ -1,5 +1,24 @@
+[% USE raw %]
 [% INCLUDE 'doc-head-open.inc' %]
-<title>Koha: ILL Actions: Configuration</title>
+<title>Koha: ILL Actions</title>
+[% INCLUDE 'doc-head-close.inc' %]
+</head>
+
+<body>
+[% WRAPPER 'header.inc' %]
+    [% INCLUDE 'cat-search.inc' %]
+[% END %]
+
+[% WRAPPER 'sub-header.inc' %]
+    [% WRAPPER breadcrumbs %]
+        [% WRAPPER breadcrumb_item %]
+            <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a>
+        [% END %]
+        [% WRAPPER breadcrumb_item %]
+            <a href="/cgi-bin/koha/plugins/run.pl?class=Koha%3A%3APlugin%3A%3ACom%3A%3APTFSEurope%3A%3AIllActions&amp;method=configure">ILL Actions</a>
+        [% END %]
+    [% END #/ WRAPPER breadcrumbs %]
+[% END #/ WRAPPER sub-header.inc %]
 <style>
     #ill_actions_config_h3 {
         margin: 20px;
@@ -26,11 +45,6 @@
         min-width: 500px;
     }
 
-    h4.section_header,
-    #submit_button {
-        margin-top: 40px;
-    }
-
     .ill_config_field {
         padding: 10px;
         border-radius: 5px;
@@ -43,91 +57,91 @@
     }
 
 </style>
-[% INCLUDE 'doc-head-close.inc' %]
 </head>
 <body>
-[% INCLUDE 'header.inc' %]
-[% INCLUDE 'cat-search.inc' %]
 
-<div id="breadcrumbs"><a href="/cgi-bin/koha/mainpage.pl">Home</a> &rsaquo; <a href="/cgi-bin/koha/plugins/plugins-home.pl">Plugins</a> &rsaquo; ILL Actions &rsaquo; Configuration</div>
+<div class="main container-fluid">
+    <div class="row">
+        <div class="col-md-10 offset-md-2 order-sm-1">
+            <h1>ILL Actions configuration</h1>
+            [% IF saved %]
+                <div class="alert alert-info">Configuration saved</div>
+            [% END %]
+            <form id="ill_actions_configure" method="get">
+                <fieldset class="rows">
+                    <input type="hidden" name="class" value="[% CLASS %]"/>
+                    <input type="hidden" name="method" value="[% METHOD %]"/>
+                    <legend>Table</legend>
+                    <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
+                        <label for="table_new_request_for_user_input">Show "New request for this user" action button: </label>
+                        [% IF config.new_request_for_user_table_button %]
+                            <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
+                        [% ELSE %]
+                            <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
+                        [% END %]
+                    </div>
+                    <legend>Manage request page</legend>
+                    <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
+                        <label for="manage_new_request_for_user_input">Show "New request for this user" manage toolbar button: </label>
+                        [% IF config.new_request_for_user_manage_button %]
+                            <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
+                        [% ELSE %]
+                            <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
+                        [% END %]
+                        <p>Shown when managing a request</p>
+                    </div>
+                    <legend>Create request form</legend>
+                    <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
+                        <label for="default_library_to_user_library_input">Default destination library to the request's patron library: </label>
+                        [% IF config.default_library_to_user_library %]
+                            <input id="default_library_to_user_library_input" class="required_input" type="checkbox" checked name="default_library_to_user_library">
+                        [% ELSE %]
+                            <input id="default_library_to_user_library_input" class="required_input" type="checkbox" name="default_library_to_user_library">
+                        [% END %]
+                        <p>The request's destination library will be set to match the selected patron's library</p>
+                    </div>
+                    <div id="ill_actions_quick_add_user" class="ill_config_field">
+                        <label for="quick_add_user_input">Show "+Add new user" link</label>
+                        [% IF config.quick_add_user %]
+                            <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
+                        [% ELSE %]
+                            <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
+                        [% END %]
+                        <p>A link is shown next to the cardnumber input allowing to quickly add a new user</p>
+                    </div>
+                    <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
+                        <label for="auto_fill_form_metadata_staff_input">Staff: Auto fill form metadata given a DOI/Pubmedid</label>
+                        [% IF config.auto_fill_form_metadata_staff %]
+                            <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_staff">
+                        [% ELSE %]
+                            <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_staff">
+                        [% END %]
+                        <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
+                        <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
+                    </div>
+                    <div id="ill_actions_auto_fill_form_metadata_opac" class="ill_config_field">
+                        <label for="auto_fill_form_metadata_opac_input">OPAC: Auto fill form metadata given a DOI/Pubmedid</label>
+                        [% IF config.auto_fill_form_metadata_opac %]
+                            <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_opac">
+                        [% ELSE %]
+                            <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_opac">
+                        [% END %]
+                        <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
+                        <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
+                    </div>
+                    <input type="hidden" name="save" value="1" />
+                    <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
+                </fieldset>
+            </form>
 
-<div id="doc3">
-
-    <h3 id="ill_actions_config_h3">Koha: ILL Actions: Configuration</h3>
-    <form id="ill_actions_configure" method="get">
-        <input type="hidden" name="class" value="[% CLASS %]"/>
-        <input type="hidden" name="method" value="[% METHOD %]"/>
-        <h4 class="section_header">Table</h4>
-        <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
-            <label for="table_new_request_for_user_input">Show "New request for this user" action button: </label>
-            [% IF config.new_request_for_user_table_button %]
-                <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
-            [% ELSE %]
-                <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
-            [% END %]
+            <div id="ill_actions_upgrade">
+                <h5>Upgrade status</h5>
+                [% IF last_upgraded %]
+                    Plugin was last upgraded on this system on [% last_upgraded | $KohaDates with_hours => 1 %]
+                [% ELSE %]
+                    Plugin has never been upgraded.
+                [% END %]
+            </div>
         </div>
-        <h4 class="section_header">Manage request page</h4>
-        <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
-            <label for="manage_new_request_for_user_input">Show "New request for this user" manage toolbar button: </label>
-            [% IF config.new_request_for_user_manage_button %]
-                <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
-            [% ELSE %]
-                <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
-            [% END %]
-            <p>Shown when managing a request</p>
-        </div>
-        <h4 class="section_header">Create request form</h4>
-        <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
-            <label for="default_library_to_user_library_input">Default destination library to the request's patron library: </label>
-            [% IF config.default_library_to_user_library %]
-                <input id="default_library_to_user_library_input" class="required_input" type="checkbox" checked name="default_library_to_user_library">
-            [% ELSE %]
-                <input id="default_library_to_user_library_input" class="required_input" type="checkbox" name="default_library_to_user_library">
-            [% END %]
-            <p>The request's destination library will be set to match the selected patron's library</p>
-        </div>
-        <div id="ill_actions_quick_add_user" class="ill_config_field">
-            <label for="quick_add_user_input">Show "+Add new user" link</label>
-            [% IF config.quick_add_user %]
-                <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
-            [% ELSE %]
-                <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
-            [% END %]
-            <p>A link is shown next to the cardnumber input allowing to quickly add a new user</p>
-        </div>
-        <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
-            <label for="auto_fill_form_metadata_staff_input">Staff: Auto fill form metadata given a DOI/Pubmedid</label>
-            [% IF config.auto_fill_form_metadata_staff %]
-                <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_staff">
-            [% ELSE %]
-                <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_staff">
-            [% END %]
-            <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
-            <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
-        </div>
-        <div id="ill_actions_auto_fill_form_metadata_opac" class="ill_config_field">
-            <label for="auto_fill_form_metadata_opac_input">OPAC: Auto fill form metadata given a DOI/Pubmedid</label>
-            [% IF config.auto_fill_form_metadata_opac %]
-                <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_opac">
-            [% ELSE %]
-                <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_opac">
-            [% END %]
-            <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
-            <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
-        </div>
-        <input type="hidden" name="save" value="1" />
-        <input id="submit_button" type="submit" value="Save configuration" />
-    </form>
-
-    <hr/>
-
-    <div id="ill_actions_upgrade">
-        <h5>Upgrade status</h5>
-        [% IF last_upgraded %]
-            Plugin was last upgraded on this system on [% last_upgraded | $KohaDates with_hours => 1 %]
-        [% ELSE %]
-            Plugin has never been upgraded.
-        [% END %]
-    </div>
 
 [% INCLUDE 'intranet-bottom.inc' %]
