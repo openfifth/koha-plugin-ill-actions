@@ -71,16 +71,16 @@
                 <fieldset class="rows">
                     <input type="hidden" name="class" value="[% CLASS %]"/>
                     <input type="hidden" name="method" value="[% METHOD %]"/>
-                    <legend>Table</legend>
+                    <legend>New request for this user</legend>
                     <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
-                        <label for="table_new_request_for_user_input">Show "New request for this user" action button: </label>
+                        <label for="table_new_request_for_user_input">Show "New request for this user" table action button: </label>
                         [% IF config.new_request_for_user_table_button %]
                             <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
                         [% ELSE %]
                             <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
                         [% END %]
+                        <p>Shown on the requests table actions</p>
                     </div>
-                    <legend>Manage request page</legend>
                     <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
                         <label for="manage_new_request_for_user_input">Show "New request for this user" manage toolbar button: </label>
                         [% IF config.new_request_for_user_manage_button %]
@@ -90,7 +90,7 @@
                         [% END %]
                         <p>Shown when managing a request</p>
                     </div>
-                    <legend>Create request form</legend>
+                    <legend>Default library to user library</legend>
                     <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
                         <label for="default_library_to_user_library_input">Default destination library to the request's patron library: </label>
                         [% IF config.default_library_to_user_library %]
@@ -100,15 +100,7 @@
                         [% END %]
                         <p>The request's destination library will be set to match the selected patron's library</p>
                     </div>
-                    <div id="ill_actions_quick_add_user" class="ill_config_field">
-                        <label for="quick_add_user_input">Show "+Add new user" link</label>
-                        [% IF config.quick_add_user %]
-                            <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
-                        [% ELSE %]
-                            <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
-                        [% END %]
-                        <p>A link is shown next to the cardnumber input allowing to quickly add a new user</p>
-                    </div>
+                    <legend>Metadata auto fill</legend>
                     <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
                         <label for="auto_fill_form_metadata_staff_input">Staff: Auto fill form metadata given a DOI/Pubmedid</label>
                         [% IF config.auto_fill_form_metadata_staff %]
@@ -128,6 +120,16 @@
                         [% END %]
                         <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
                         <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
+                    </div>
+                    <legend>Quick add user</legend>
+                    <div id="ill_actions_quick_add_user" class="ill_config_field">
+                        <label for="quick_add_user_input">Show "+Add new user" link</label>
+                        [% IF config.quick_add_user %]
+                            <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
+                        [% ELSE %]
+                            <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
+                        [% END %]
+                        <p>A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user</p>
                     </div>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
