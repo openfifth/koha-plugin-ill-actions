@@ -15,6 +15,9 @@ if (is_create_page || is_edit_page) {
     if (!$("#categorycode_entry_quick_add").children("optgroup").length) {
       _GETPatronCategories();
     }
+    if (ill_actions_plugin_config.quick_add_user_default_cardnumber && !$("#cardnumber_quick_add").val()) {
+      _GETMaxPatronID();
+    }
     $("#addQuickAddUserModal").modal("show");
     $(".dialog.alert").remove();
   });
@@ -234,6 +237,29 @@ if (is_create_page || is_edit_page) {
           </form>
       </div> <!-- /#addQuickAddUserModal -->
   `);
+  }
+
+  /**
+   * Populate the cardnumber field with the next id
+   *
+   * @private
+   */
+  function _GETMaxPatronID() {
+    $.ajax({
+      url: "/api/v1/patrons?_order_by=-me.patron_id&_per_page=1",
+      type: "GET",
+      beforeSend: function () {
+        $("#cardnumber_quick_add").attr("placeholder", "Adding auto cardnumber...");
+      },
+      success: function (data) {
+        $("#cardnumber_quick_add").val(
+          data[data.length - 1].patron_id + 1
+        );
+      },
+      error: function (data) {
+        console.log(data);
+      },
+    });
   }
 
   /**

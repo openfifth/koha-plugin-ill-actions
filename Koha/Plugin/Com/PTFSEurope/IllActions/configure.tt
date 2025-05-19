@@ -131,6 +131,15 @@
                         [% END %]
                         <p>A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user</p>
                     </div>
+                    <div id="ill_actions_quick_add_user_default_cardnumber" class="ill_config_field">
+                        <label for="quick_add_user_default_cardnumber_input">Add default cardnumber</label>
+                        [% IF config.quick_add_user_default_cardnumber %]
+                            <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" checked name="quick_add_user_default_cardnumber">
+                        [% ELSE %]
+                            <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" name="quick_add_user_default_cardnumber">
+                        [% END %]
+                        <p>Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.</p>
+                    </div>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
                 </fieldset>
