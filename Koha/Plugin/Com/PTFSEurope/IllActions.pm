@@ -16,7 +16,7 @@ use File::Basename qw( dirname );
 use Koha::Libraries;
 use Koha::Patrons;
 
-our $VERSION = "2.2.1";
+our $VERSION = "2.3.0";
 
 our $metadata = {
     name            => 'IllActions',
