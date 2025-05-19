@@ -68,6 +68,7 @@ sub configure {
     my $template = $self->get_template( { file => 'configure.tt' } );
     my $config   = $self->{config};
     $template->param(
+        patron_categories => _get_patron_categories_for_template(),
         config => $self->{config},
         cwd    => dirname(__FILE__)
     );
@@ -89,6 +90,28 @@ sub configure {
         );
     }
     $self->output_html( $template->output() );
+}
+
+
+=head3 _get_patron_categories_for_template
+
+This is ugly and copy pasted from memberentry.pl for now until Koha provides a DRY way of rendering patron categories
+
+=cut
+
+sub _get_patron_categories_for_template {
+    my $patron_categories = Koha::Patron::Categories->search_with_library_limits(
+        {
+            category_type => [qw(C A S P I X)],
+        },
+        { order_by => ['categorycode'] }
+    );
+    my @patron_categories = $patron_categories->as_list;
+    my $categories        = {};
+    foreach my $patron_category (@patron_categories) {
+        push @{ $categories->{ $patron_category->category_type } }, $patron_category;
+    }
+    return $categories;
 }
 
 =head3 ill_table_actions

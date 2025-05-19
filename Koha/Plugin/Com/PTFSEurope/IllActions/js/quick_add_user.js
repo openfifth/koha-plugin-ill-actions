@@ -74,6 +74,11 @@ if (is_create_page || is_edit_page) {
             );
           });
         });
+
+        // Set default
+        if (ill_actions_plugin_config.quick_add_user_default_patron_category) {
+          $('#categorycode_entry_quick_add').val(ill_actions_plugin_config.quick_add_user_default_patron_category);
+        }
       },
       error: function (data) {
         console.log(data);

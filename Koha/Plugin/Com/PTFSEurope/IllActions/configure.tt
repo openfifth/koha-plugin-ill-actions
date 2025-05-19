@@ -140,6 +140,38 @@
                         [% END %]
                         <p>Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.</p>
                     </div>
+                    <div id="ill_actions_quick_add_user_default_patron_category" class="ill_config_field">
+                        <label for="quick_add_user_default_patron_category">Add default patron category</label>
+                        <select id="categorycode_entry" name="quick_add_user_default_patron_category">
+                            [% FOREACH category_type IN patron_categories.keys.sort %]
+                                [% SWITCH category_type %]
+                                [% CASE 'C' %]
+                                    <optgroup label="Child">
+                                [% CASE 'A' %]
+                                    <optgroup label="Adult">
+                                [% CASE 'S' %]
+                                    <optgroup label="Staff">
+                                [% CASE 'I' %]
+                                    <optgroup label="Organization">
+                                [% CASE 'P' %]
+                                    <optgroup label="Professional">
+                                [% CASE 'X' %]
+                                    <optgroup label="Statistical">
+                                [% CASE %]
+                                    <optgroup label="Unknown">
+                                [% END %]
+                                [% FOREACH category IN patron_categories.$category_type %]
+                                    [% IF category.categorycode == config.quick_add_user_default_patron_category %]
+                                        <option value="[% category.categorycode | html %]" selected="selected" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
+                                    [% ELSE %]
+                                        <option value="[% category.categorycode | html %]" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
+                                    [% END %]
+                                [% END %]
+                                    </optgroup>
+                            [% END %]
+                        </select>
+                        <p>Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.</p>
+                    </div>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
                 </fieldset>
