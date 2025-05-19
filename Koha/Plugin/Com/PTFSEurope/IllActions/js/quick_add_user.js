@@ -132,7 +132,11 @@ if (is_create_page || is_edit_page) {
             ) +
             "</div>"
         );
-        input.val(data.cardnumber);
+        if( is_create_page ){
+          input.val(data.cardnumber);
+        } else{
+          input.val(data.patron_id);
+        }
       },
       error: function (data) {
         console.log(data);
