@@ -245,7 +245,7 @@
   // Make the call to Crossref
   var crossref = function(doi) {
       if (doi.length === 0) return;
-      var url = 'https://api.crossref.org/works/' + doi;
+      var url = 'https://api.crossref.org/works/' + doi.trim();
       $.ajax({
           dataType: "json",
           url: url,
@@ -265,14 +265,15 @@
   // Make the call to Pubmed
   var pubmedid = function(pubmedid) {
       if (pubmedid.length === 0) return;
-      var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' + pubmedid;
+      let clean_pubmedid = pubmedid.trim();
+      var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' + clean_pubmedid;
       $.ajax({
           dataType: "json",
           url: url,
           success: function(data){
             if(data['error']){
               $('#auto-fill-container ol').append(getAutoFillMessage('error'));
-            } else if(data['result'][pubmedidField.val()]['error']){
+            } else if(data['result'][clean_pubmedid]['error']){
               $('#auto-fill-container ol').append(getAutoFillMessage('error'));
             }else{
               backends[backend].parser(data);
