@@ -277,6 +277,7 @@ if (is_create_page || is_edit_page) {
       I: "Institutional",
       P: "Professional",
       S: "Staff",
+      X: "Statistical",
     };
     return category_type_map[category_type_code];
   }
