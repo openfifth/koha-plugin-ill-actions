@@ -15,6 +15,7 @@ use File::Basename qw( dirname );
 
 use Koha::Libraries;
 use Koha::Patrons;
+use Koha::Patron::Attribute::Types;
 
 our $VERSION = "2.3.0";
 
@@ -51,6 +52,7 @@ sub new {
     my $self = $class->SUPER::new($args);
 
     $self->{config} = decode_json( $self->retrieve_data('illactions_config') || '{}' );
+    $self->{cgi} = CGI->new();
 
     return $self;
 }
@@ -134,12 +136,28 @@ sub ill_table_actions {
     ) if $self->{config}->{new_request_for_user_table_button};
 }
 
+sub get_patron_attribute_types_template {
+    my ($self) = @_;
+
+    if ( Koha::Patron::Attribute::Types->can('patron_attributes_form') ) {
+        my $template = $self->get_template( { file => 'patron-attribute-types.tt' } );
+        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {mandatory => 1} );
+        return $template->output;
+    }
+    return '';
+}
+
 sub intranet_js {
     my ($self) = @_;
+
+    my $attribute_types_template = $self->get_patron_attribute_types_template();
 
     my $script = '<script>';
     $script .= $self->mbf_read('js/init.js');
     $script .= 'const ill_actions_plugin_config = ' . encode_json( $self->{config} ) . ';';
+    if ($attribute_types_template) {
+        $script .= 'const mandatory_patron_attribute_types = ' . encode_json( $attribute_types_template ) . ';';
+    }
     $script .= $self->mbf_read('js/new_request_for_user_table_button.js')
         if $self->{config}->{new_request_for_user_table_button};
     $script .= $self->mbf_read('js/new_request_for_user_manage_button.js')

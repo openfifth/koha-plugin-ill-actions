@@ -1,0 +1,2 @@
+[% PROCESS 'member-attribute-types.inc' %]
+[% PROCESS 'memberentry_patron_attributes_form' patron_attributes=patron_attributes %]

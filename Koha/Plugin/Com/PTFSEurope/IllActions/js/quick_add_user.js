@@ -28,12 +28,25 @@ if (is_create_page || is_edit_page) {
       $("#quick_add_user_form").get(0).reportValidity();
     } else {
       $("#user-submit-spinner").show();
+      let patronAttributes = $("[id^='patron_attr_']").get().reduce((acc, current, index) => {
+        if (index % 2 === 0) {
+          acc.push({
+            value: $(current).val(),
+            type: $(current).next().val()
+          });
+        }
+        return acc;
+      }, []);
+
+      console.log(patronAttributes);
+
       _POSTPatron({
         surname: $("#surname_quick_add").val(),
         cardnumber: $("#cardnumber_quick_add").val(),
         email: $("#email_quick_add").val(),
         library_id: $("#libraries_quick_add").val(),
         category_id: $("#categorycode_entry_quick_add").val(),
+        extended_attributes: patronAttributes
       });
     }
   });
@@ -226,6 +239,7 @@ if (is_create_page || is_edit_page) {
                               </li>
                           </ol>
                       </fieldset>
+                      ` + (typeof mandatory_patron_attribute_types !== 'undefined' ? mandatory_patron_attribute_types : '') + `
                   </div> <!-- /.modal-body -->
                   <div class="modal-footer">
                       <input type="hidden" id="quick_add_user_biblio" name="biblio_id"
