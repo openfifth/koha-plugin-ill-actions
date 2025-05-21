@@ -185,8 +185,8 @@ if (is_create_page || is_edit_page) {
       <div class="modal" id="addQuickAddUserModal" tabindex="-1" role="dialog"
           aria-labelledby="addQuickAddUserModalLabel" aria-hidden="true">
           <form id="quick_add_user_form">
-          <div class="modal-dialog modal-md" role="document">
-              <div class="modal-content modal-md">
+          <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content modal-lg">
                   <div class="modal-header">
                       <h1 class="modal-title" id="add-group-modal-label">Add patron</h1>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
