@@ -6,42 +6,42 @@
         parser: function(data) {
             if(typeof data.message !== 'undefined'){
                 var message = data.message;
-                $('#issue').val(message.issue);
-                $('#pages').val(message.page);
-                $('#article_title').val(message.title.join('. '));
-                $('#chapter').val(message.title.join('. '));
-                $('#volume').val(message.volume);
+                $('#issue').val(message.issue).trigger('keyup');
+                $('#pages').val(message.page).trigger('keyup');
+                $('#article_title').val(message.title.join('. ')).trigger('keyup');
+                $('#chapter').val(message.title.join('. ')).trigger('keyup');
+                $('#volume').val(message.volume).trigger('keyup');
                 $('#article_author').val(message.author?.slice(0, 10).map(function(a) {
                     return a.given + ' ' + a.family;
-                }).join('. '));
+                }).join('. ')).trigger('keyup');
                 $('#chapter_author').val(message.author?.map(function(a) {
                     return a.given + ' ' + a.family;
-                }).join('. '));
-                $('#title').val(message['container-title'].join('. '));
-                $('#issn').val(message.ISSN[0]);
+                }).join('. ')).trigger('keyup');
+                $('#title').val(message['container-title'].join('. ')).trigger('keyup');
+                $('#issn').val(message.ISSN[0]).trigger('keyup');
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
-                    $('#year').val(message.published['date-parts'][0][0]);
-                    $('#published_date').val(message.published['date-parts'][0].join('-'));
+                    $('#year').val(message.published['date-parts'][0][0]).trigger('keyup');
+                    $('#published_date').val(message.published['date-parts'][0].join('-')).trigger('keyup');
                 }
             }
             if(typeof data.result !== 'undefined'){
                 var uid = data.result.uids[0];
                 var result = data.result[uid];
-                $('#issue').val(result.issue);
-                $('#pages').val(result.pages);
-                $('#article_title').val(result.title);
-                $('#chapter').val(result.title);
-                $('#volume').val(result.volume);
+                $('#issue').val(result.issue).trigger('keyup');
+                $('#pages').val(result.pages).trigger('keyup');
+                $('#article_title').val(result.title).trigger('keyup');
+                $('#chapter').val(result.title).trigger('keyup');
+                $('#volume').val(result.volume).trigger('keyup');
                 $('#article_author').val(result.authors?.slice(0, 10).map(function(a) {
                     return a.name;
-                }).join('; '));
+                }).join('; ')).trigger('keyup');
                 $('#chapter_author').val(result.author?.map(function(a) {
                     return a.given + ' ' + a.family;
-                }).join('. '));
-                $('#aulast').val("");
-                $('#title').val(result.fulljournalname);
-                $('#issn').val(result.issn);
-                $('#published_date').val(result.sortpubdate?.slice(0,4));
+                }).join('. ')).trigger('keyup');
+                $('#aulast').val("").trigger('keyup');
+                $('#title').val(result.fulljournalname).trigger('keyup');
+                $('#issn').val(result.issn).trigger('keyup');
+                $('#published_date').val(result.sortpubdate?.slice(0,4)).trigger('keyup');
             }
         }
   };
