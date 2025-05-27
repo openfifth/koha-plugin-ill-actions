@@ -12,8 +12,8 @@ if (is_create_page || is_edit_page) {
     if (!$("#libraries_quick_add").children("option").length) {
       _GETLibraries();
     }
-    if (!$("#categorycode_entry_quick_add").children("optgroup").length) {
-      _GETPatronCategories();
+    if (!$("#categorycode_entry_quick_add").children("optgroup").length && quick_add_user_patron_categories) {
+      _PopulatePatronCategories();
     }
     if (ill_actions_plugin_config.quick_add_user_default_cardnumber && !$("#cardnumber_quick_add").val()) {
       _GETMaxPatronID();
@@ -52,51 +52,41 @@ if (is_create_page || is_edit_page) {
   });
 
   /**
-   * Sends a GET request to the /api/v1/patron_categories endpoint to fetch patron categories
+   * Populates patron categories from the quick_add_user_patron_categories variable
    *
-   * Upon success, adds the categories to the category dropdown
    */
-  function _GETPatronCategories() {
-    $.ajax({
-      url: "/api/v1/patron_categories",
-      type: "GET",
-      success: function (data) {
-        let groupedCategories = Object.groupBy(
-          data,
-          ({ category_type }) => category_type
+  function _PopulatePatronCategories() {
+    let groupedCategories = Object.groupBy(
+      quick_add_user_patron_categories,
+      ({ category_type }) => category_type
+    );
+
+    // Add <optgroup>
+    $.each(groupedCategories, function (category_code, categories) {
+      $("#categorycode_entry_quick_add").append(
+        $(
+          '<optgroup id="' +
+            category_code +
+            '"label="' +
+            _getCategoryTypeName(category_code) +
+            '"></optgroup>'
+        )
+      );
+
+      // Add <option>
+      $.each(categories, function (i, category) {
+        $("#categorycode_entry_quick_add #" + category_code).append(
+          $("<option></option>")
+            .val(category.patron_category_id)
+            .html(category.name)
         );
-
-        // Add <optgroup>
-        $.each(groupedCategories, function (category_code, categories) {
-          $("#categorycode_entry_quick_add").append(
-            $(
-              '<optgroup id="' +
-                category_code +
-                '"label="' +
-                _getCategoryTypeName(category_code) +
-                '"></optgroup>'
-            )
-          );
-
-          // Add <option>
-          $.each(categories, function (i, category) {
-            $("#categorycode_entry_quick_add #" + category_code).append(
-              $("<option></option>")
-                .val(category.patron_category_id)
-                .html(category.name)
-            );
-          });
-        });
-
-        // Set default
-        if (ill_actions_plugin_config.quick_add_user_default_patron_category) {
-          $('#categorycode_entry_quick_add').val(ill_actions_plugin_config.quick_add_user_default_patron_category);
-        }
-      },
-      error: function (data) {
-        console.log(data);
-      },
+      });
     });
+
+    // Set default
+    if (ill_actions_plugin_config.quick_add_user_default_patron_category) {
+      $('#categorycode_entry_quick_add').val(ill_actions_plugin_config.quick_add_user_default_patron_category);
+    }
   }
 
   /**
