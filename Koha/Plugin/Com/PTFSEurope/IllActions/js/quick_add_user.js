@@ -106,7 +106,7 @@ if (is_create_page || is_edit_page) {
    */
   function _GETLibraries() {
     $.ajax({
-      url: "/api/v1/libraries",
+      url: "/api/v1/libraries?_per_page=-1",
       type: "GET",
       success: function (data) {
         $.each(data, function (val, text) {
