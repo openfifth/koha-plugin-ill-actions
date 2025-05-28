@@ -8,6 +8,7 @@
                 var message = data.message;
                 $('#issue').val(message.issue).trigger('keyup');
                 $('#pages').val(message.page).trigger('keyup');
+                $('#publisher').val(message.publisher).trigger('keyup');
                 $('#article_title').val(message.title.join('. ')).trigger('keyup');
                 $('#chapter').val(message.title.join('. ')).trigger('keyup');
                 $('#volume').val(message.volume).trigger('keyup');
@@ -29,6 +30,7 @@
                 var result = data.result[uid];
                 $('#issue').val(result.issue).trigger('keyup');
                 $('#pages').val(result.pages).trigger('keyup');
+                $('#publisher').val(result.publishername).trigger('keyup');
                 $('#article_title').val(result.title).trigger('keyup');
                 $('#chapter').val(result.title).trigger('keyup');
                 $('#volume').val(result.volume).trigger('keyup');
