@@ -1,5 +1,8 @@
 /* START CROSSREF DOI / PUBMEDID LOOKUP */
 (function() {
+
+  let form_id = $('#create_form').length ? '#create_form' : '#standard_edit_form';
+
   var standard = {
         selectName: 'type',
         materialTypes: [ 'article', 'chapter' ],
@@ -197,12 +200,12 @@
       var newFieldset = $('<fieldset id="auto-fill-container" class="rows"><ol></ol></fieldset>');
       if( backend == 'Standard' ){
         if( isOPAC ){
-          $('#create_form fieldset:eq(1)').after(newFieldset);
+          $(form_id + ' fieldset:eq(1)').after(newFieldset);
         }else{
-          $('#create_form fieldset:first').after(newFieldset);
+          $(form_id + ' fieldset:first').after(newFieldset);
         }
       }else{
-        $('#create_form').prepend(newFieldset);
+        $(form_id).prepend(newFieldset);
       }
       newFieldset.children('ol').prepend(getAutoFillMessage('tip'));
       newFieldset.children('ol').append(doiField.parent());
@@ -222,7 +225,7 @@
             if(!$('#auto-fill-loading').length && doiField.val().length > 0){
                 $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
                 $('#auto-fill-result').remove();
-                $('#create_form input[type="text"]').not('[name="backend"]').not('[name="doi"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
+                $(form_id + ' input[type="text"]').not('[name="backend"]').not('[name="doi"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
             }
              // Kick off lookup
              debounce(crossref, 1000)(doiField.val());
@@ -236,7 +239,7 @@
             if(!$('#auto-fill-loading').length && pubmedidField.val().length > 0){
                 $('#auto-fill-container ol').append(getAutoFillMessage('loading'));
                 $('#auto-fill-result').remove();
-                $('#create_form input[type="text"]').not('[name="backend"]').not('[name="pubmedid"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
+                $(form_id + ' input[type="text"]').not('[name="backend"]').not('[name="pubmedid"]').not('[name="cardnumber"]').not('[name^="unauthenticated"]').not('[name^="custom"]').val('');
             }
            // Kick off lookup
            debounce(pubmedid, 1000)(pubmedidField.val());
