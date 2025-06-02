@@ -13,6 +13,7 @@ use JSON qw( encode_json decode_json );
 use JSON           qw( to_json from_json );
 use File::Basename qw( dirname );
 
+use C4::Templates;
 use Koha::Libraries;
 use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
@@ -141,7 +142,7 @@ sub get_patron_attribute_types_template {
     my ($self) = @_;
 
     if ( Koha::Patron::Attribute::Types->can('patron_attributes_form') ) {
-        my $template = $self->get_template( { file => 'patron-attribute-types.tt' } );
+        my $template = C4::Templates::gettemplate( $self->mbf_path('patron-attribute-types.tt'), 'intranet', undef );
         Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {mandatory => 1} );
         return $template->output;
     }
