@@ -69,7 +69,9 @@
                 }).join('; '));
                 $('#title').val(message['container-title'].join('. '));
                 $('#issn').val(message.ISSN[0]);
-                $('#date').val(message.published['date-parts'][0][0]);
+                if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
+                    $('#date').val(message.published['date-parts'][0][0]);
+                }
             }
             if(typeof data.result !== 'undefined'){
                 var uid = data.result.uids[0];
@@ -102,8 +104,10 @@
               }).join('. ')).trigger("keyup");
               $('#PatronJournalTitle').val(message['container-title'].join('. ')).trigger("keyup");
               $('#SuggestedIssns').val(message.ISSN.join(' ')).trigger("keyup");
-              $('#JournalMonth').val(message.published['date-parts'][0][1]).trigger("keyup");
-              $('#PatronJournalYear').val(message.published['date-parts'][0][0]).trigger("keyup");
+              if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
+                  $('#JournalMonth').val(message.published['date-parts'][0][1]).trigger("keyup");
+                  $('#PatronJournalYear').val(message.published['date-parts'][0][0]).trigger("keyup");
+              }
           }
       },
       FreeForm: standard,
