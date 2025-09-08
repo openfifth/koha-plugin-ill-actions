@@ -42,6 +42,7 @@ if (is_create_page || is_edit_page) {
 
       _POSTPatron({
         surname: $("#surname_quick_add").val(),
+        firstname: $("#firstname_quick_add").val(),
         cardnumber: $("#cardnumber_quick_add").val(),
         email: $("#email_quick_add").val(),
         library_id: $("#libraries_quick_add").val(),
@@ -129,6 +130,7 @@ if (is_create_page || is_edit_page) {
         $("#user-submit-spinner").hide();
         $("#addQuickAddUserModal").modal("hide");
         $("#surname_quick_add").val("");
+        $("#firstname_quick_add").val("");
         $("#cardnumber_quick_add").val("");
         $("#toolbar").before(
           '<div class="alert alert-info">' +
@@ -136,7 +138,7 @@ if (is_create_page || is_edit_page) {
               'Patron successfully created: </br> <strong><a target="_blank" href="/cgi-bin/koha/members/moremember.pl?borrowernumber=' +
                 data.patron_id +
                 '">' +
-                data.surname +
+                data.firstname + ' ' + data.surname +
                 "(" +
                 data.cardnumber +
                 ")"
@@ -190,6 +192,12 @@ if (is_create_page || is_edit_page) {
                                   <input type="text" id="surname_quick_add" name="surname" size="20"
                                       value="" required="" class="noEnterSubmit">
                                   <span class="required">Required</span>
+                              </li>
+                              <li>
+                                  <label for="firstname">
+                                      First name: </label>
+                                  <input type="text" id="firstname_quick_add" name="firstname" size="20"
+                                      value="" class="noEnterSubmit">
                               </li>
                               <li>
                                   <label for="cardnumber" class="required">
