@@ -149,6 +149,43 @@ sub get_patron_attribute_types_template {
     return '';
 }
 
+sub intranet_head {
+    my ($self) = @_;
+
+    # CSS produced by SCSS changes in bug 36285, applied to ILL only
+    return q|
+        <style>
+            #interlibraryloans fieldset.rows li .v-select:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
+            #interlibraryloans fieldset.rows li select:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
+            #interlibraryloans fieldset.rows li textarea:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
+            #interlibraryloans fieldset.rows li input:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]) {
+                border-color: rgba(60, 60, 60, 0.26);
+                border-width: 1px;
+                border-radius: 4px;
+                min-width: var(--size, 30%);
+                line-height: 1.5;
+            }
+            #interlibraryloans fieldset.rows li input[size] {
+                --size: attr(size, em);
+            }
+            #interlibraryloans fieldset.rows li .v-select,
+            #interlibraryloans fieldset.rows li select {
+                display: inline-block;
+                background-color: white;
+                width: 30%;
+            }
+            #interlibraryloans fieldset.rows li select {
+                padding: 2px 0;
+            }
+            #interlibraryloans fieldset.rows li .flatpickr-input {
+                width: 30%;
+            }
+        </style>
+    | if $self->{config}->{improved_staff_form_style};
+
+    return;
+}
+
 sub intranet_js {
     my ($self) = @_;
 
@@ -247,6 +284,7 @@ sub install() {
         new_request_for_user_manage_button => "on",
         new_request_for_user_table_button  => "on",
         quick_add_user                     => "on",
+        improved_staff_form_style          => "on",
     };
 
     $self->store_data( { illactions_config => scalar encode_json($default_config) } )

@@ -172,6 +172,16 @@
                         </select>
                         <p>Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.</p>
                     </div>
+                    <legend>Styling</legend>
+                    <div id="ill_actions_improved_staff_form_style" class="ill_config_field">
+                        <label for="improved_staff_form_style_input">Use improved form style</label>
+                        [% IF config.improved_staff_form_style %]
+                            <input id="improved_staff_form_style_input" class="required_input" type="checkbox" checked name="improved_staff_form_style">
+                        [% ELSE %]
+                            <input id="improved_staff_form_style_input" class="required_input" type="checkbox" name="improved_staff_form_style">
+                        [% END %]
+                        <p>Makes ILL standard form fields wider and with a border-radius</p>
+                    </div>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
                 </fieldset>
