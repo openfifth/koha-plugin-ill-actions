@@ -22,7 +22,8 @@
                     return a.given + ' ' + a.family;
                 }).join('. ')).trigger('keyup');
                 $('#title').val(message['container-title'].join('. ')).trigger('keyup');
-                $('#issn').val(message.ISSN[0]).trigger('keyup');
+                $('#issn').val(message["issn-type"].find(item => item.type === "print")?.value).trigger('keyup');
+                $('#eissn').val(message["issn-type"].find(item => item.type === "electronic")?.value).trigger('keyup');
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
                     $('#year').val(message.published['date-parts'][0][0]).trigger('keyup');
                     $('#published_date').val(message.published['date-parts'][0].join('-')).trigger('keyup');
@@ -46,6 +47,7 @@
                 $('#aulast').val("").trigger('keyup');
                 $('#title').val(result.fulljournalname).trigger('keyup');
                 $('#issn').val(result.issn).trigger('keyup');
+                $('#eissn').val(result.essn).trigger('keyup');
                 $('#published_date').val(result.sortpubdate?.slice(0,4)).trigger('keyup');
             }
         }
@@ -68,7 +70,8 @@
                     return a.family;
                 }).join('; '));
                 $('#title').val(message['container-title'].join('. '));
-                $('#issn').val(message.ISSN[0]);
+                $('#issn').val(message["issn-type"].find(item => item.type === "print")?.value).trigger('keyup');
+                $('#eissn').val(message["issn-type"].find(item => item.type === "electronic")?.value).trigger('keyup');
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
                     $('#date').val(message.published['date-parts'][0][0]);
                 }
@@ -86,6 +89,7 @@
                 $('#aulast').val("");
                 $('#title').val(result.fulljournalname);
                 $('#issn').val(result.issn);
+                $('#eissn').val(result.essn).trigger('keyup');
                 $('#date').val(result.sortpubdate.slice(0,4));
             }
           }
