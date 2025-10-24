@@ -48,7 +48,8 @@
                 $('#title').val(result.fulljournalname).trigger('keyup');
                 $('#issn').val(result.issn).trigger('keyup');
                 $('#eissn').val(result.essn).trigger('keyup');
-                $('#published_date').val(result.sortpubdate?.slice(0,4)).trigger('keyup');
+                $('#published_date').val(result.history?.find(item => item.pubstatus === "pmc-release")?.date.slice(0, 10).replace(/\//g, '-')).trigger('keyup');
+                $('#year').val(result.sortpubdate?.slice(0,4)).trigger('keyup');
             }
         }
   };
