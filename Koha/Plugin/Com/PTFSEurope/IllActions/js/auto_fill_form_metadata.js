@@ -21,7 +21,7 @@
                 $('#chapter_author').val(message.author?.map(function(a) {
                     return a.given + ' ' + a.family;
                 }).join('. ')).trigger('keyup');
-                $('#title').val(message['container-title'].join('. ')).trigger('keyup');
+                $('#title').val($('<div>').html(message['container-title'].join('. ')).text()).trigger('keyup');
                 $('#issn').val(message["issn-type"].find(item => item.type === "print")?.value).trigger('keyup');
                 $('#eissn').val(message["issn-type"].find(item => item.type === "electronic")?.value).trigger('keyup');
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
