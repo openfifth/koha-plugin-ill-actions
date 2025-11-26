@@ -14,6 +14,7 @@ use JSON           qw( to_json from_json );
 use File::Basename qw( dirname );
 
 use C4::Templates;
+use Koha::AuthorisedValueCategories;
 use Koha::Libraries;
 use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
@@ -71,10 +72,27 @@ sub configure {
 
     my $template = $self->get_template( { file => 'configure.tt' } );
     my $config   = $self->{config};
+
+    my $custom_fields = _extract_custom_fields($config);
+    my @AVCats_list   = Koha::AuthorisedValueCategories->search()->as_list();
+    my @AVCats        = map {
+        $_->category_name,
+    } @AVCats_list;
+
+    my @borrower_attribute_types_list = Koha::Patron::Attribute::Types->search()->as_list();
+    my @borrower_attribute_types      = map {
+        $_->code,
+    } @borrower_attribute_types_list;
+    unshift @borrower_attribute_types, '';
+
     $template->param(
-        patron_categories => _get_patron_categories_for_template(),
-        config => $self->{config},
-        cwd    => dirname(__FILE__)
+        av_cats                  => \@AVCats,
+        borrower_attribute_types => \@borrower_attribute_types,
+        patron_categories        => _get_patron_categories_for_template(),
+        config                   => $self->{config},
+        custom_fields            => $custom_fields,
+        custom_fields_size       => scalar @$custom_fields,
+        cwd                      => dirname(__FILE__)
     );
     if ( $cgi->param('save') ) {
         my %blacklist = ( 'save' => 1, 'class' => 1, 'method' => 1 );
@@ -92,6 +110,11 @@ sub configure {
             config => decode_json( $self->retrieve_data('illactions_config') || '{}' ),
             saved  => 1,
         );
+
+        print $cgi->redirect( -url =>
+                '/cgi-bin/koha/plugins/run.pl?class=Koha%3A%3APlugin%3A%3ACom%3A%3APTFSEurope%3A%3AIllActions&method=configure'
+        );
+        exit;
     }
     $self->output_html( $template->output() );
 }
@@ -143,7 +166,7 @@ sub get_patron_attribute_types_template {
 
     if ( Koha::Patron::Attribute::Types->can('patron_attributes_form') ) {
         my $template = C4::Templates::gettemplate( $self->mbf_path('patron-attribute-types.tt'), 'intranet', undef );
-        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {mandatory => 1} );
+        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {} );
         return $template->output;
     }
     return '';
@@ -213,6 +236,13 @@ sub intranet_js {
     }
     $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
         if $self->{config}->{auto_fill_form_metadata_staff};
+
+    my $custom_fields = _extract_custom_fields( $self->{config} );
+    if ( scalar @$custom_fields ){
+        $script .= 'const ill_actions_unauthenticated_custom_fields = ' . encode_json($custom_fields) . ';';
+        $script .= $self->mbf_read('js/unauthenticated_custom_fields/staff.js');
+    }
+
     $script .= '</script>';
 
     return $script;
@@ -224,9 +254,48 @@ sub opac_js {
     my $script = '<script>';
     $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
         if $self->{config}->{auto_fill_form_metadata_opac};
+
+    my $custom_fields = _extract_custom_fields( $self->{config}, 1 );
+    if ( scalar @$custom_fields ){
+        $script .= 'const ill_actions_unauthenticated_custom_fields = ' . encode_json($custom_fields) . ';';
+        $script .= $self->mbf_read('js/unauthenticated_custom_fields/opac.js');
+    }
+
     $script .= '</script>';
 
     return $script;
+}
+
+sub _extract_custom_fields {
+    my ( $custom_fields_hash, $include_avs ) = @_;
+
+    my %custom_fields_map = ();
+    my $regex             = qr/^custom_fields_(\d+)_(\w+)$/;
+
+    foreach my $key ( keys %$custom_fields_hash ) {
+        if ( my ( $index, $field_key ) = $key =~ $regex ) {
+            unless ( exists $custom_fields_map{$index} ) {
+                $custom_fields_map{$index} = {};
+            }
+            $custom_fields_map{$index}->{$field_key} = $custom_fields_hash->{$key};
+
+            if ( $include_avs && $custom_fields_map{$index}->{'avcat'} ) {
+                $custom_fields_map{$index}->{'avs'} =
+                    C4::Koha::GetAuthorisedValues( $custom_fields_map{$index}->{'avcat'} );
+            }
+        }
+    }
+
+    my @tuples;
+    foreach my $index ( sort { $a <=> $b } keys %custom_fields_map ) {
+        $custom_fields_map{$index}->{'index'} = int($index);
+        push @tuples, $custom_fields_map{$index};
+    }
+
+    my %seen;
+    my @filtered_fields = grep { $_->{code} && $_->{description} && !$seen{ $_->{code} }++ } @tuples;
+
+    return \@filtered_fields;
 }
 
 # =head3 ill_available_actions

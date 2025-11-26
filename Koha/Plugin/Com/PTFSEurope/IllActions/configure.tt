@@ -204,6 +204,48 @@
                             <i class="fa-solid fa-circle-question"></i>
                         </a>
                     </div>
+                    <legend>
+                        Unauthenticated OPAC ILL custom fields
+                        <a href="#" data-bs-toggle="tooltip" title="Fields to be shown on Unauthenticated OPAC ILL form. Adding custom fields disables free custom fields on the form. Delete a field's code or description to remove it."><i class="fa-solid fa-circle-question"></i>
+                        </a>
+                    </legend>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="py-3">Code
+                                    <a href="#" data-bs-toggle="tooltip" title="The database code this illrequestattribute will be saved as. Changing this value after data has been saved is not recommended">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    </a>
+                                </th>
+                                <th class="py-3">Label description
+                                    <a href="#" data-bs-toggle="tooltip" title="The text displayed to the user">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    </a>
+                                </th>
+                                <th class="py-3">Authorised value category
+                                    <a href="#" data-bs-toggle="tooltip" title="The options for this field. Only presents if the selected category contains at least one option. If no category is selected, the field is considered to be a text field">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    </a>
+                                </th>
+                                <th class="py-3">Required?
+                                    <a href="#" data-bs-toggle="tooltip" title="Set whether this custom field should be required">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    </a>
+                                </th>
+                                <th class="py-3">Borrower attribute type
+                                    <a href="#" data-bs-toggle="tooltip" title="The corresponding borrower attribute type to map to when using 'quick add user' modal. If an AV field, the AV category must match or the auto-fill will fail.">
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    </a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            [% FOREACH custom_field IN custom_fields %]
+                                [% PROCESS field_config_row field=custom_field%]
+                            [% END %]
+                            [% PROCESS field_config_row field=0 %]
+                        </tbody>
+                    </table>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
                 </fieldset>
@@ -220,3 +262,89 @@
         </div>
 
 [% INCLUDE 'intranet-bottom.inc' %]
+
+
+[% BLOCK field_config_row %]
+    <tr>
+        <td class="py-2">
+            <div class="flex flex-col space-y-1">
+                <input
+                    type="text"
+                    [% IF field %]
+                        id="custom_fields_[% field.index %]_code"
+                        value="[% field.code %]"
+                        name="custom_fields_[% field.index %]_code"
+                    [% ELSE %]
+                        name="custom_fields_[% custom_fields_size %]_code"
+                    [% END %]
+                    >
+
+            </div>
+        </td>
+        <td class="py-2">
+            <div class="flex flex-col space-y-1">
+                <input
+                    type="text"
+                    [% IF field %]
+                        id="custom_fields_[% field.index %]_description"
+                        value="[% field.description %]"
+                        name="custom_fields_[% field.index %]_description"
+                    [% ELSE %]
+                        name="custom_fields_[% custom_fields_size %]_description"
+                    [% END %]
+                    >
+            </div>
+        </td>
+        <td class="py-2">
+            <div class="flex flex-col space-y-1">
+                <select
+                    [% IF field %]
+                        id="custom_fields_[% field.index %]_avcat"
+                        name="custom_fields_[% field.index %]_avcat"
+                    [% ELSE %]
+                        id="custom_fields_[% custom_fields_size %]_avcat"
+                        name="custom_fields_[% custom_fields_size %]_avcat"
+                    [% END %]
+                >
+                    [% FOREACH av_cat IN av_cats %]
+                        [% IF av_cat == field.avcat %]
+                            <option value='[% av_cat %]' selected="selected">[% av_cat %]</option>
+                        [% ELSE %]
+                            <option value='[% av_cat %]'>[% av_cat %]</option>
+                        [% END %]
+                    [% END %]
+                </select>
+            </div>
+        </td>
+        <td class="py-2">
+            <div class="flex flex-col space-y-1">
+                [% IF field && field.required %]
+                    <input id="custom_fields_[% field.index %]_required" type="checkbox" checked name="custom_fields_[% field.index %]_required">
+                [% ELSE %]
+                    <input id="custom_fields_[% custom_fields_size %]_required" type="checkbox" name="custom_fields_[% custom_fields_size %]_required">
+                [% END %]
+            </div>
+        </td>
+        <td class="py-2">
+            <div class="flex flex-col space-y-1">
+                <select
+                    [% IF field %]
+                        id="custom_fields_[% field.index %]_borrower_attribute_type"
+                        name="custom_fields_[% field.index %]_borrower_attribute_type"
+                    [% ELSE %]
+                        id="custom_fields_[% custom_fields_size %]_borrower_attribute_type"
+                        name="custom_fields_[% custom_fields_size %]_borrower_attribute_type"
+                    [% END %]
+                >
+                    [% FOREACH bat IN borrower_attribute_types %]
+                        [% IF bat == field.borrower_attribute_type %]
+                            <option value='[% bat %]' selected="selected">[% bat %]</option>
+                        [% ELSE %]
+                            <option value='[% bat %]'>[% bat %]</option>
+                        [% END %]
+                    [% END %]
+                </select>
+            </div>
+        </td>
+    </tr>
+[% END %]

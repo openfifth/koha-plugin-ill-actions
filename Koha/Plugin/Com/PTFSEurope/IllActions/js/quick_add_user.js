@@ -18,6 +18,25 @@ if (is_create_page || is_edit_page) {
     if (ill_actions_plugin_config.quick_add_user_default_cardnumber && !$("#cardnumber_quick_add").val()) {
       _GETMaxPatronID();
     }
+    const mapped_custom_fields = $('[data-borrower_attribute_type]');
+    const list_items = $('li[data-pa_code]');
+
+    list_items.each(function () {
+      const paCode = $(this).data("pa_code");
+
+      const labelFor = $(this).find("label").first().attr("for");
+      const attrNumber = labelFor.match(/\d+$/)?.[0];
+      if (!attrNumber) return;
+
+      mapped_custom_fields.each(function () {
+        const attrType = $(this).data("borrower_attribute_type");
+        if (paCode === attrType) {
+          const value = $(this).parent().contents().last().text().trim();
+          $(`#patron_attr_${attrNumber}`).val(value);
+        }
+      });
+    });
+
     $("#addQuickAddUserModal").modal("show");
     $(".dialog.alert").remove();
   });
@@ -37,8 +56,6 @@ if (is_create_page || is_edit_page) {
         }
         return acc;
       }, []);
-
-      console.log(patronAttributes);
 
       _POSTPatron({
         surname: $("#surname_quick_add").val(),
