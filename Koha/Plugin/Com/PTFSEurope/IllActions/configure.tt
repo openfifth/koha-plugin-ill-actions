@@ -50,6 +50,12 @@
         border-radius: 5px;
         background: #F4F8F9;
         margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+
+    input[type=checkbox], input[type=radio]{
+        margin: 0px 3px 0px 5px;
     }
 
     .instruction {
@@ -71,55 +77,63 @@
                 <fieldset class="rows">
                     <input type="hidden" name="class" value="[% CLASS %]"/>
                     <input type="hidden" name="method" value="[% METHOD %]"/>
-                    <legend>New request for this user</legend>
+                    <legend>'New request for this user' button</legend>
                     <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
-                        <label for="table_new_request_for_user_input">Show "New request for this user" table action button: </label>
+                        <label for="table_new_request_for_user_input">Show on table actions: </label>
                         [% IF config.new_request_for_user_table_button %]
                             <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
                         [% ELSE %]
                             <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
                         [% END %]
-                        <p>Shown on the requests table actions</p>
+                        <a href="#" data-bs-toggle="tooltip" title="Shown on the requests table actions">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
-                        <label for="manage_new_request_for_user_input">Show "New request for this user" manage toolbar button: </label>
+                        <label for="manage_new_request_for_user_input">Show on manage toolbar: </label>
                         [% IF config.new_request_for_user_manage_button %]
                             <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
                         [% ELSE %]
                             <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
                         [% END %]
-                        <p>Shown when managing a request</p>
+                        <a href="#" data-bs-toggle="tooltip" title="Shown when managing a request">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <legend>Default library to user library</legend>
                     <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
-                        <label for="default_library_to_user_library_input">Default destination library to the request's patron library: </label>
+                        <label for="default_library_to_user_library_input">Default to patron's library: </label>
                         [% IF config.default_library_to_user_library %]
                             <input id="default_library_to_user_library_input" class="required_input" type="checkbox" checked name="default_library_to_user_library">
                         [% ELSE %]
                             <input id="default_library_to_user_library_input" class="required_input" type="checkbox" name="default_library_to_user_library">
                         [% END %]
-                        <p>The request's destination library will be set to match the selected patron's library</p>
+                        <a href="#" data-bs-toggle="tooltip" title="The request's destination library will be set to match the selected patron's library">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <legend>Metadata auto fill</legend>
                     <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
-                        <label for="auto_fill_form_metadata_staff_input">Staff: Auto fill form metadata given a DOI/Pubmedid</label>
+                        <label for="auto_fill_form_metadata_staff_input">Staff form:</label>
                         [% IF config.auto_fill_form_metadata_staff %]
                             <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_staff">
                         [% ELSE %]
                             <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_staff">
                         [% END %]
-                        <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
-                        <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
+                        <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <div id="ill_actions_auto_fill_form_metadata_opac" class="ill_config_field">
-                        <label for="auto_fill_form_metadata_opac_input">OPAC: Auto fill form metadata given a DOI/Pubmedid</label>
+                        <label for="auto_fill_form_metadata_opac_input">OPAC form:</label>
                         [% IF config.auto_fill_form_metadata_opac %]
                             <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_opac">
                         [% ELSE %]
                             <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_opac">
                         [% END %]
-                        <p>Metadata is automatically filled when a DOI/Pubmedid is provided</p>
-                        <p>Fully compatible if <a target="_blank" href="/cgi-bin/koha/admin/preferences.pl?tab=&amp;op=search&amp;searchfield=AutoILLBackendPriority">AutoILLBackendPriority</a> is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk) </p>
+                        <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <legend>Quick add user</legend>
                     <div id="ill_actions_quick_add_user" class="ill_config_field">
@@ -129,7 +143,9 @@
                         [% ELSE %]
                             <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
                         [% END %]
-                        <p>A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user</p>
+                        <a href="#" data-bs-toggle="tooltip" title="A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <div id="ill_actions_quick_add_user_default_cardnumber" class="ill_config_field">
                         <label for="quick_add_user_default_cardnumber_input">Add default cardnumber</label>
@@ -138,7 +154,9 @@
                         [% ELSE %]
                             <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" name="quick_add_user_default_cardnumber">
                         [% END %]
-                        <p>Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.</p>
+                        <a href="#" data-bs-toggle="tooltip" title="Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <div id="ill_actions_quick_add_user_default_patron_category" class="ill_config_field">
                         <label for="quick_add_user_default_patron_category">Add default patron category</label>
@@ -170,17 +188,21 @@
                                     </optgroup>
                             [% END %]
                         </select>
-                        <p>Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.</p>
+                        <a href="#" data-bs-toggle="tooltip" title="Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
-                    <legend>Styling</legend>
+                    <legend>Staff form styling</legend>
                     <div id="ill_actions_improved_staff_form_style" class="ill_config_field">
-                        <label for="improved_staff_form_style_input">Use improved form style</label>
+                        <label for="improved_staff_form_style_input">Use improved style</label>
                         [% IF config.improved_staff_form_style %]
                             <input id="improved_staff_form_style_input" class="required_input" type="checkbox" checked name="improved_staff_form_style">
                         [% ELSE %]
                             <input id="improved_staff_form_style_input" class="required_input" type="checkbox" name="improved_staff_form_style">
                         [% END %]
-                        <p>Makes ILL standard form fields wider and with a border-radius</p>
+                        <a href="#" data-bs-toggle="tooltip" title="Makes ILL standard form fields wider and with a border-radius">
+                            <i class="fa-solid fa-circle-question"></i>
+                        </a>
                     </div>
                     <input type="hidden" name="save" value="1" />
                     <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
