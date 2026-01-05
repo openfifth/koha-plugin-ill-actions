@@ -18,24 +18,7 @@ if (is_create_page || is_edit_page) {
     if (ill_actions_plugin_config.quick_add_user_default_cardnumber && !$("#cardnumber_quick_add").val()) {
       _GETMaxPatronID();
     }
-    const mapped_custom_fields = $('[data-borrower_attribute_type]');
-    const list_items = $('li[data-pa_code]');
-
-    list_items.each(function () {
-      const paCode = $(this).data("pa_code");
-
-      const labelFor = $(this).find("label").first().attr("for");
-      const attrNumber = labelFor.match(/\d+$/)?.[0];
-      if (!attrNumber) return;
-
-      mapped_custom_fields.each(function () {
-        const attrType = $(this).data("borrower_attribute_type");
-        if (paCode === attrType) {
-          const value = $(this).parent().contents().last().text().trim();
-          $(`#patron_attr_${attrNumber}`).val(value);
-        }
-      });
-    });
+    _PopulateUnauthData();
 
     $("#addQuickAddUserModal").modal("show");
     $(".dialog.alert").remove();
@@ -68,6 +51,44 @@ if (is_create_page || is_edit_page) {
       });
     }
   });
+
+  /**
+   * Populates unauth data
+   *
+   */
+  function _PopulateUnauthData() {
+      const mapped_custom_fields = $("[data-borrower_attribute_type]");
+      const list_items = $("li[data-pa_code]");
+
+      list_items.each(function () {
+        const paCode = $(this).data("pa_code");
+
+        const labelFor = $(this).find("label").first().attr("for");
+        const attrNumber = labelFor.match(/\d+$/)?.[0];
+        if (!attrNumber) return;
+
+        mapped_custom_fields.each(function () {
+          const attrType = $(this).data("borrower_attribute_type");
+          if (paCode === attrType) {
+            const value = $(this).parent().contents().last().text().trim();
+            $(`#patron_attr_${attrNumber}`).val(value);
+          }
+        });
+      });
+
+    let unauth_firstname = document.querySelector('.unauthenticated_first_name');
+    unauth_firstname = unauth_firstname.parentNode.textContent.replace(unauth_firstname.textContent, '').trim();
+    $("#firstname_quick_add").val(unauth_firstname);
+
+    let unauth_surname = document.querySelector('.unauthenticated_last_name');
+    unauth_surname = unauth_surname.parentNode.textContent.replace(unauth_surname.textContent, '').trim();
+    $("#surname_quick_add").val(unauth_surname);
+
+    let unauth_email = document.querySelector('.unauthenticated_email');
+    unauth_email = unauth_email.parentNode.textContent.replace(unauth_email.textContent, '').trim();
+    $("#email_quick_add").val(unauth_email);
+
+  }
 
   /**
    * Populates patron categories from the quick_add_user_patron_categories variable
@@ -169,7 +190,6 @@ if (is_create_page || is_edit_page) {
         }
       },
       error: function (data) {
-        console.log(data);
         $("#user-submit-spinner").hide();
         $("#addQuickAddUserModal").modal("hide");
         $("#interlibraryloans").before(
