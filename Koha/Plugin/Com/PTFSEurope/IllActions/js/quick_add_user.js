@@ -77,16 +77,22 @@ if (is_create_page || is_edit_page) {
       });
 
     let unauth_firstname = document.querySelector('.unauthenticated_first_name');
-    unauth_firstname = unauth_firstname.parentNode.textContent.replace(unauth_firstname.textContent, '').trim();
-    $("#firstname_quick_add").val(unauth_firstname);
+    if(unauth_firstname){
+      unauth_firstname = unauth_firstname.parentNode.textContent.replace(unauth_firstname.textContent, '').trim();
+      $("#firstname_quick_add").val(unauth_firstname);
+    }
 
     let unauth_surname = document.querySelector('.unauthenticated_last_name');
-    unauth_surname = unauth_surname.parentNode.textContent.replace(unauth_surname.textContent, '').trim();
-    $("#surname_quick_add").val(unauth_surname);
+    if(unauth_surname){
+      unauth_surname = unauth_surname.parentNode.textContent.replace(unauth_surname.textContent, '').trim();
+      $("#surname_quick_add").val(unauth_surname);
+    }
 
     let unauth_email = document.querySelector('.unauthenticated_email');
-    unauth_email = unauth_email.parentNode.textContent.replace(unauth_email.textContent, '').trim();
-    $("#email_quick_add").val(unauth_email);
+    if(unauth_email){
+      unauth_email = unauth_email.parentNode.textContent.replace(unauth_email.textContent, '').trim();
+      $("#email_quick_add").val(unauth_email);
+    }
 
   }
 
