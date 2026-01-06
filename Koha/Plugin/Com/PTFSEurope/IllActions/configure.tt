@@ -37,10 +37,6 @@
         list-style: none;
     }
 
-    #ill_actions_upgrade {
-        margin: 20px;
-    }
-
     input#ill_actions_email_input {
         min-width: 500px;
     }
@@ -74,193 +70,198 @@
                 <div class="alert alert-info">Configuration saved</div>
             [% END %]
             <form id="ill_actions_configure" method="get">
-                <fieldset class="rows">
-                    <input type="hidden" name="class" value="[% CLASS %]"/>
-                    <input type="hidden" name="method" value="[% METHOD %]"/>
-                    <legend>'New request for this user' button</legend>
-                    <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
-                        <label for="table_new_request_for_user_input">Show on table actions: </label>
-                        [% IF config.new_request_for_user_table_button %]
-                            <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
-                        [% ELSE %]
-                            <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Shown on the requests table actions">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
-                        <label for="manage_new_request_for_user_input">Show on manage toolbar: </label>
-                        [% IF config.new_request_for_user_manage_button %]
-                            <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
-                        [% ELSE %]
-                            <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Shown when managing a request">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <legend>Default library to user library</legend>
-                    <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
-                        <label for="default_library_to_user_library_input">Default to patron's library: </label>
-                        [% IF config.default_library_to_user_library %]
-                            <input id="default_library_to_user_library_input" class="required_input" type="checkbox" checked name="default_library_to_user_library">
-                        [% ELSE %]
-                            <input id="default_library_to_user_library_input" class="required_input" type="checkbox" name="default_library_to_user_library">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="The request's destination library will be set to match the selected patron's library">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <legend>Metadata auto fill</legend>
-                    <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
-                        <label for="auto_fill_form_metadata_staff_input">Staff form:</label>
-                        [% IF config.auto_fill_form_metadata_staff %]
-                            <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_staff">
-                        [% ELSE %]
-                            <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_staff">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <div id="ill_actions_auto_fill_form_metadata_opac" class="ill_config_field">
-                        <label for="auto_fill_form_metadata_opac_input">OPAC form:</label>
-                        [% IF config.auto_fill_form_metadata_opac %]
-                            <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_opac">
-                        [% ELSE %]
-                            <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_opac">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <legend>Quick add user</legend>
-                    <div id="ill_actions_quick_add_user" class="ill_config_field">
-                        <label for="quick_add_user_input">Show "+Add new user" link</label>
-                        [% IF config.quick_add_user %]
-                            <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
-                        [% ELSE %]
-                            <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <div id="ill_actions_quick_add_user_default_cardnumber" class="ill_config_field">
-                        <label for="quick_add_user_default_cardnumber_input">Add default cardnumber</label>
-                        [% IF config.quick_add_user_default_cardnumber %]
-                            <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" checked name="quick_add_user_default_cardnumber">
-                        [% ELSE %]
-                            <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" name="quick_add_user_default_cardnumber">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </div>
-                    <div id="ill_actions_quick_add_user_default_patron_category" class="ill_config_field">
-                        <label for="quick_add_user_default_patron_category">Add default patron category</label>
-                        <select id="categorycode_entry" name="quick_add_user_default_patron_category">
-                            [% FOREACH category_type IN patron_categories.keys.sort %]
-                                [% SWITCH category_type %]
-                                [% CASE 'C' %]
-                                    <optgroup label="Child">
-                                [% CASE 'A' %]
-                                    <optgroup label="Adult">
-                                [% CASE 'S' %]
-                                    <optgroup label="Staff">
-                                [% CASE 'I' %]
-                                    <optgroup label="Organization">
-                                [% CASE 'P' %]
-                                    <optgroup label="Professional">
-                                [% CASE 'X' %]
-                                    <optgroup label="Statistical">
-                                [% CASE %]
-                                    <optgroup label="Unknown">
+                <div class="row">
+                    <div class="col-md-5">
+                        <fieldset class="rows">
+                            <input type="hidden" name="class" value="[% CLASS %]"/>
+                            <input type="hidden" name="method" value="[% METHOD %]"/>
+                            <legend>'New request for this user' button</legend>
+                            <div id="ill_actions_new_request_for_user_table_button" class="ill_config_field">
+                                <label for="table_new_request_for_user_input">Show on table actions: </label>
+                                [% IF config.new_request_for_user_table_button %]
+                                    <input id="table_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_table_button">
+                                [% ELSE %]
+                                    <input id="table_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_table_button">
                                 [% END %]
-                                [% FOREACH category IN patron_categories.$category_type %]
-                                    [% IF category.categorycode == config.quick_add_user_default_patron_category %]
-                                        <option value="[% category.categorycode | html %]" selected="selected" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
-                                    [% ELSE %]
-                                        <option value="[% category.categorycode | html %]" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
+                                <a href="#" data-bs-toggle="tooltip" title="Shown on the requests table actions">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <div id="ill_actions_new_request_for_user_manage_button" class="ill_config_field">
+                                <label for="manage_new_request_for_user_input">Show on manage toolbar: </label>
+                                [% IF config.new_request_for_user_manage_button %]
+                                    <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" checked name="new_request_for_user_manage_button">
+                                [% ELSE %]
+                                    <input id="manage_new_request_for_user_input" class="required_input" type="checkbox" name="new_request_for_user_manage_button">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Shown when managing a request">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <legend>Default library to user library</legend>
+                            <div id="ill_actions_default_library_to_user_library" class="ill_config_field">
+                                <label for="default_library_to_user_library_input">Default to patron's library: </label>
+                                [% IF config.default_library_to_user_library %]
+                                    <input id="default_library_to_user_library_input" class="required_input" type="checkbox" checked name="default_library_to_user_library">
+                                [% ELSE %]
+                                    <input id="default_library_to_user_library_input" class="required_input" type="checkbox" name="default_library_to_user_library">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="The request's destination library will be set to match the selected patron's library">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <legend>Metadata auto fill</legend>
+                            <div id="ill_actions_auto_fill_form_metadata_staff" class="ill_config_field">
+                                <label for="auto_fill_form_metadata_staff_input">Staff form:</label>
+                                [% IF config.auto_fill_form_metadata_staff %]
+                                    <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_staff">
+                                [% ELSE %]
+                                    <input id="auto_fill_form_metadata_staff_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_staff">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <div id="ill_actions_auto_fill_form_metadata_opac" class="ill_config_field">
+                                <label for="auto_fill_form_metadata_opac_input">OPAC form:</label>
+                                [% IF config.auto_fill_form_metadata_opac %]
+                                    <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" checked name="auto_fill_form_metadata_opac">
+                                [% ELSE %]
+                                    <input id="auto_fill_form_metadata_opac_input" class="required_input" type="checkbox" name="auto_fill_form_metadata_opac">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Metadata is automatically filled when a DOI/Pubmedid is provided. Fully compatible if AutoILLBackendPriority is used. Otherwise, only compatible with (FreeForm/Standard, RapidILL, ReprintsDesk)">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-md-5">
+                        <fieldset class="rows">
+                            <legend>Quick add user</legend>
+                            <div id="ill_actions_quick_add_user" class="ill_config_field">
+                                <label for="quick_add_user_input">Show "+Add new user" link</label>
+                                [% IF config.quick_add_user %]
+                                    <input id="quick_add_user_input" class="required_input" type="checkbox" checked name="quick_add_user">
+                                [% ELSE %]
+                                    <input id="quick_add_user_input" class="required_input" type="checkbox" name="quick_add_user">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="A link is shown next to the cardnumber/patron id inputs, on the 'create form' and 'edit request' pages respectively, allowing to quickly add a new user">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <div id="ill_actions_quick_add_user_default_cardnumber" class="ill_config_field">
+                                <label for="quick_add_user_default_cardnumber_input">Add default cardnumber</label>
+                                [% IF config.quick_add_user_default_cardnumber %]
+                                    <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" checked name="quick_add_user_default_cardnumber">
+                                [% ELSE %]
+                                    <input id="quick_add_user_default_cardnumber_input" class="required_input" type="checkbox" name="quick_add_user_default_cardnumber">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Cardnumber is automatically filled when using 'Quick add user' pop-up modal. The value is the next available patron id.">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <div id="ill_actions_quick_add_user_default_patron_category" class="ill_config_field">
+                                <label for="quick_add_user_default_patron_category">Add default patron category</label>
+                                <select id="categorycode_entry" name="quick_add_user_default_patron_category">
+                                    [% FOREACH category_type IN patron_categories.keys.sort %]
+                                        [% SWITCH category_type %]
+                                        [% CASE 'C' %]
+                                            <optgroup label="Child">
+                                        [% CASE 'A' %]
+                                            <optgroup label="Adult">
+                                        [% CASE 'S' %]
+                                            <optgroup label="Staff">
+                                        [% CASE 'I' %]
+                                            <optgroup label="Organization">
+                                        [% CASE 'P' %]
+                                            <optgroup label="Professional">
+                                        [% CASE 'X' %]
+                                            <optgroup label="Statistical">
+                                        [% CASE %]
+                                            <optgroup label="Unknown">
+                                        [% END %]
+                                        [% FOREACH category IN patron_categories.$category_type %]
+                                            [% IF category.categorycode == config.quick_add_user_default_patron_category %]
+                                                <option value="[% category.categorycode | html %]" selected="selected" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
+                                            [% ELSE %]
+                                                <option value="[% category.categorycode | html %]" data-pwd-length="[% category.effective_min_password_length | html %]" data-pwd-strong="[% category.effective_require_strong_password | html %]" data-typename="[% category_type | html %]">[% category.description | html %]</option>
+                                            [% END %]
+                                        [% END %]
+                                            </optgroup>
                                     [% END %]
+                                </select>
+                                <a href="#" data-bs-toggle="tooltip" title="Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                            <legend>Staff form styling</legend>
+                            <div id="ill_actions_improved_staff_form_style" class="ill_config_field">
+                                <label for="improved_staff_form_style_input">Use improved style</label>
+                                [% IF config.improved_staff_form_style %]
+                                    <input id="improved_staff_form_style_input" class="required_input" type="checkbox" checked name="improved_staff_form_style">
+                                [% ELSE %]
+                                    <input id="improved_staff_form_style_input" class="required_input" type="checkbox" name="improved_staff_form_style">
                                 [% END %]
-                                    </optgroup>
-                            [% END %]
-                        </select>
-                        <a href="#" data-bs-toggle="tooltip" title="Select the patron category that is automatically selected when using 'Quick add user' pop-up modal.">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
+                                <a href="#" data-bs-toggle="tooltip" title="Makes ILL standard form fields wider and with a border-radius">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
+                        </fieldset>
                     </div>
-                    <legend>Staff form styling</legend>
-                    <div id="ill_actions_improved_staff_form_style" class="ill_config_field">
-                        <label for="improved_staff_form_style_input">Use improved style</label>
-                        [% IF config.improved_staff_form_style %]
-                            <input id="improved_staff_form_style_input" class="required_input" type="checkbox" checked name="improved_staff_form_style">
-                        [% ELSE %]
-                            <input id="improved_staff_form_style_input" class="required_input" type="checkbox" name="improved_staff_form_style">
-                        [% END %]
-                        <a href="#" data-bs-toggle="tooltip" title="Makes ILL standard form fields wider and with a border-radius">
-                            <i class="fa-solid fa-circle-question"></i>
-                        </a>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 order-sm-1">
+                        <fieldset class="rows">
+                            <legend>
+                                Unauthenticated OPAC ILL custom fields
+                                <a href="#" data-bs-toggle="tooltip" title="Fields to be shown on Unauthenticated OPAC ILL form. Adding custom fields disables free custom fields on the form. Delete a field's code or description to remove it."><i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </legend>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="py-3">Code
+                                            <a href="#" data-bs-toggle="tooltip" title="The database code this illrequestattribute will be saved as. Changing this value after data has been saved is not recommended">
+                                                <i class="fa-solid fa-circle-question"></i>
+                                            </a>
+                                        </th>
+                                        <th class="py-3">Label description
+                                            <a href="#" data-bs-toggle="tooltip" title="The text displayed to the user">
+                                                <i class="fa-solid fa-circle-question"></i>
+                                            </a>
+                                        </th>
+                                        <th class="py-3">Authorised value category
+                                            <a href="#" data-bs-toggle="tooltip" title="The options for this field. Only presents if the selected category contains at least one option. If no category is selected, the field is considered to be a text field">
+                                                <i class="fa-solid fa-circle-question"></i>
+                                            </a>
+                                        </th>
+                                        <th class="py-3">Required?
+                                            <a href="#" data-bs-toggle="tooltip" title="Set whether this custom field should be required">
+                                                <i class="fa-solid fa-circle-question"></i>
+                                            </a>
+                                        </th>
+                                        <th class="py-3">Borrower attribute type
+                                            <a href="#" data-bs-toggle="tooltip" title="The corresponding borrower attribute type to map to when using 'quick add user' modal. If an AV field, the AV category must match or the auto-fill will fail.">
+                                                <i class="fa-solid fa-circle-question"></i>
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    [% FOREACH custom_field IN custom_fields %]
+                                        [% PROCESS field_config_row field=custom_field%]
+                                    [% END %]
+                                    [% PROCESS field_config_row field=0 %]
+                                </tbody>
+                            </table>
+                            <input type="hidden" name="save" value="1" />
+                            <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
+                        </fieldset>
                     </div>
-                    <legend>
-                        Unauthenticated OPAC ILL custom fields
-                        <a href="#" data-bs-toggle="tooltip" title="Fields to be shown on Unauthenticated OPAC ILL form. Adding custom fields disables free custom fields on the form. Delete a field's code or description to remove it."><i class="fa-solid fa-circle-question"></i>
-                        </a>
-                    </legend>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th class="py-3">Code
-                                    <a href="#" data-bs-toggle="tooltip" title="The database code this illrequestattribute will be saved as. Changing this value after data has been saved is not recommended">
-                                        <i class="fa-solid fa-circle-question"></i>
-                                    </a>
-                                </th>
-                                <th class="py-3">Label description
-                                    <a href="#" data-bs-toggle="tooltip" title="The text displayed to the user">
-                                        <i class="fa-solid fa-circle-question"></i>
-                                    </a>
-                                </th>
-                                <th class="py-3">Authorised value category
-                                    <a href="#" data-bs-toggle="tooltip" title="The options for this field. Only presents if the selected category contains at least one option. If no category is selected, the field is considered to be a text field">
-                                        <i class="fa-solid fa-circle-question"></i>
-                                    </a>
-                                </th>
-                                <th class="py-3">Required?
-                                    <a href="#" data-bs-toggle="tooltip" title="Set whether this custom field should be required">
-                                        <i class="fa-solid fa-circle-question"></i>
-                                    </a>
-                                </th>
-                                <th class="py-3">Borrower attribute type
-                                    <a href="#" data-bs-toggle="tooltip" title="The corresponding borrower attribute type to map to when using 'quick add user' modal. If an AV field, the AV category must match or the auto-fill will fail.">
-                                        <i class="fa-solid fa-circle-question"></i>
-                                    </a>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            [% FOREACH custom_field IN custom_fields %]
-                                [% PROCESS field_config_row field=custom_field%]
-                            [% END %]
-                            [% PROCESS field_config_row field=0 %]
-                        </tbody>
-                    </table>
-                    <input type="hidden" name="save" value="1" />
-                    <input class="btn btn-primary" id="submit_button" type="submit" value="Save configuration" />
-                </fieldset>
-            </form>
-
-            <div id="ill_actions_upgrade">
-                <h5>Upgrade status</h5>
-                [% IF last_upgraded %]
-                    Plugin was last upgraded on this system on [% last_upgraded | $KohaDates with_hours => 1 %]
-                [% ELSE %]
-                    Plugin has never been upgraded.
-                [% END %]
+                </div>
+                </form>
             </div>
         </div>
-
 [% INCLUDE 'intranet-bottom.inc' %]
 
 
