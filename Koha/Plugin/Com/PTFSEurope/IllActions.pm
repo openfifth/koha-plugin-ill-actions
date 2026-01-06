@@ -212,6 +212,8 @@ sub intranet_head {
 sub intranet_js {
     my ($self) = @_;
 
+    return unless $self->{cgi}->url =~ /ill-requests.pl/;
+
     my $attribute_types_template = $self->get_patron_attribute_types_template();
 
     my $script = '<script>';
@@ -252,6 +254,8 @@ sub intranet_js {
 
 sub opac_js {
     my ($self) = @_;
+
+    return unless $self->{cgi}->url =~ /opac-illrequests.pl/;
 
     my $script = '<script>';
     $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
