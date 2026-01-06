@@ -21,7 +21,7 @@ use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION = "2.7.0";
+our $VERSION = "2.7.1";
 
 our $metadata = {
     name            => 'IllActions',
