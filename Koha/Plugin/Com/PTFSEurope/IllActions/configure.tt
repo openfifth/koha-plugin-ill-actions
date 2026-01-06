@@ -206,6 +206,18 @@
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>
+                            <legend>Filter requests table</legend>
+                            <div id="ill_actions_filter_requests_to_staffuser_library" class="ill_config_field">
+                                <label for="filter_requests_to_staffuser_library">Default to staff member's library</label>
+                                [% IF config.filter_requests_to_staffuser_library %]
+                                    <input id="filter_requests_to_staffuser_library" class="required_input" type="checkbox" checked name="filter_requests_to_staffuser_library">
+                                [% ELSE %]
+                                    <input id="filter_requests_to_staffuser_library" class="required_input" type="checkbox" name="filter_requests_to_staffuser_library">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Upon visiting the ILL requests table, the table is filtered to the logged in user's library by default. The user can change this afterwards.">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
                         </fieldset>
                     </div>
                 </div>

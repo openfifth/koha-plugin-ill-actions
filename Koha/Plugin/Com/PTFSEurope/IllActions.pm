@@ -255,6 +255,9 @@ sub intranet_js {
         $script .= $self->mbf_read('js/unauthenticated_custom_fields/staff.js');
     }
 
+    $script .= $self->mbf_read('js/filter_requests_to_staffuser_library.js')
+        if $self->{config}->{filter_requests_to_staffuser_library};
+
     $script .= '</script>';
 
     return $script;

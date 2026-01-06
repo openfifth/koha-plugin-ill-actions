@@ -19,3 +19,5 @@ const is_illview_page =
 const is_edit_page =
   window.location.href.indexOf("/cgi-bin/koha/ill/ill-requests.pl") > -1 &&
   window.location.href.indexOf("op=edit_action") > -1;
+
+const is_table_page = $('table#ill-requests').length > 0;
