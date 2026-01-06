@@ -237,17 +237,20 @@ if (is_create_page || is_edit_page) {
                                       value="" class="noEnterSubmit">
                               </li>
                               <li>
-                                  <label for="cardnumber" class="required">
+                                  <label for="cardnumber"
+                                    ` + (mandatorycardnumber ? 'class="required"' : '') + `
+                                  >
                                       Card number:
                                   </label>
                                   <!-- NOTE: div.hint closing tag isn't on the same line -->
                                   <input type="text" id="cardnumber_quick_add" name="cardnumber" size="20"
-                                      value="" minlength="1" maxlength="32" required=""
+                                      value="" minlength="1" maxlength="32"
+                                    ` + (mandatorycardnumber ? 'required' : '') + `
                                       class="noEnterSubmit">
-                                  <span class="required">Required</span>
-                                  <span id="cn_max" class="required" style="display: none;">Card number
-                                      must not be more than 32 characters.</span>
+                                    ` + (mandatorycardnumber ? '<span class="required">Required</span>' : '') + `
                                   <div class="hint">Card number must be between 1 and 32 characters.
+                                    ` + (autoMemberNum && !mandatorycardnumber ? '<br/>Leave blank for auto calc during registration' : '') + `
+                                    ` + (autoMemberNum && mandatorycardnumber ? '<br/><span class="error">autoMemberNum is set to enabled, but card number is marked as mandatory in BorrowerMandatoryField: auto calc has been disabled.</span>' : '') + `
                                   </div>
                                   <!--/div.hint -->
                               </li>

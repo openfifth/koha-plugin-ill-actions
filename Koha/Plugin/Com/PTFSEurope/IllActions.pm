@@ -13,6 +13,7 @@ use JSON qw( encode_json decode_json );
 use JSON           qw( to_json from_json );
 use File::Basename qw( dirname );
 
+use C4::Context;
 use C4::Templates;
 use Koha::AuthorisedValueCategories;
 use Koha::Libraries;
@@ -235,6 +236,13 @@ sub intranet_js {
         if (@$patron_categories) {
             $script .= 'const quick_add_user_patron_categories = ' . encode_json(\@patron_categories) . ';';
         }
+
+        my $cardnumber_is_mandatory = C4::Context->preference("BorrowerMandatoryField") =~ /\bcardnumber\b/ ? 1 : 0;
+        $script .= "const mandatorycardnumber = $cardnumber_is_mandatory;";
+
+        my $is_auto = C4::Context->preference("autoMemberNum") ? 1 : 0;
+        $script .= "const autoMemberNum = $is_auto;";
+
         $script .= $self->mbf_read('js/quick_add_user.js')
     }
 
