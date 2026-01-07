@@ -213,9 +213,20 @@ sub intranet_head {
 sub intranet_js {
     my ($self) = @_;
 
+    my $script;
+
+    if ($self->{cgi}->url =~ /mainpage.pl/){
+        $script = '<script>';
+        $script .= $self->mbf_read('js/show_new_requests_in_mainpage.js')
+            if $self->{config}->{show_new_requests_in_mainpage};
+        $script .= '</script>';
+
+        return $script;
+    }
+
     return unless $self->{cgi}->url =~ /ill-requests.pl/;
 
-    my $script = '<script>';
+    $script = '<script>';
     $script .= $self->mbf_read('js/init.js');
     $script .= 'const ill_actions_plugin_config = ' . encode_json( $self->{config} ) . ';';
     $script .= $self->mbf_read('js/new_request_for_user_table_button.js')

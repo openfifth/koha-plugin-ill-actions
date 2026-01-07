@@ -133,6 +133,18 @@
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>
+                            <legend>'New requests' link in main page</legend>
+                            <div id="ill_actions_show_new_requests_in_mainpage" class="ill_config_field">
+                                <label for="show_new_requests_in_mainpage_input">Show 'New requests' link in main page:</label>
+                                [% IF config.show_new_requests_in_mainpage %]
+                                    <input id="show_new_requests_in_mainpage_input" class="required_input" type="checkbox" checked name="show_new_requests_in_mainpage">
+                                [% ELSE %]
+                                    <input id="show_new_requests_in_mainpage_input" class="required_input" type="checkbox" name="show_new_requests_in_mainpage">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="Show 'New ILL requests' link in mainpage in relation to logged in staff user">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="col-md-5">
