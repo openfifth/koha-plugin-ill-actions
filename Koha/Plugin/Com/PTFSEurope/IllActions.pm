@@ -215,14 +215,9 @@ sub intranet_js {
 
     return unless $self->{cgi}->url =~ /ill-requests.pl/;
 
-    my $attribute_types_template = $self->get_patron_attribute_types_template();
-
     my $script = '<script>';
     $script .= $self->mbf_read('js/init.js');
     $script .= 'const ill_actions_plugin_config = ' . encode_json( $self->{config} ) . ';';
-    if ($attribute_types_template) {
-        $script .= 'const mandatory_patron_attribute_types = ' . encode_json( $attribute_types_template ) . ';';
-    }
     $script .= $self->mbf_read('js/new_request_for_user_table_button.js')
         if $self->{config}->{new_request_for_user_table_button};
     $script .= $self->mbf_read('js/new_request_for_user_manage_button.js')
@@ -231,6 +226,11 @@ sub intranet_js {
         if $self->{config}->{default_library_to_user_library};
 
     if( $self->{config}->{quick_add_user} ){
+        my $attribute_types_template = $self->get_patron_attribute_types_template();
+        if ($attribute_types_template) {
+            $script .= 'const mandatory_patron_attribute_types = ' . encode_json( $attribute_types_template ) . ';';
+        }
+
         my $patron_categories = Koha::Patron::Categories->search_with_library_limits->as_list;
         my @patron_categories = map { $_->to_api } @$patron_categories;
         if (@$patron_categories) {
