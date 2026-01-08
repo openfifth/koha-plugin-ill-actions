@@ -167,7 +167,7 @@ sub get_patron_attribute_types_template {
 
     if ( Koha::Patron::Attribute::Types->can('patron_attributes_form') ) {
         my $template = C4::Templates::gettemplate( $self->mbf_path('patron-attribute-types.tt'), 'intranet', undef );
-        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {} );
+        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {mandatory => 1} );
         return $template->output;
     }
     return '';
