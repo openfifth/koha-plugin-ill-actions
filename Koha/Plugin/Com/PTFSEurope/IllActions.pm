@@ -21,7 +21,7 @@ use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION = "2.7.4";
+our $VERSION = "2.7.5";
 
 our $metadata = {
     name            => 'IllActions',
@@ -283,8 +283,9 @@ sub opac_js {
     $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
         if $self->{config}->{auto_fill_form_metadata_opac};
 
+    my $borrowernumber = C4::Context->userenv ? C4::Context->userenv->{'number'} : undef;
     my $custom_fields = _extract_custom_fields( $self->{config}, 1 );
-    if ( scalar @$custom_fields ){
+    if ( !$borrowernumber && scalar @$custom_fields ){
         $script .= 'const ill_actions_unauthenticated_custom_fields = ' . encode_json($custom_fields) . ';';
         $script .= $self->mbf_read('js/unauthenticated_custom_fields/opac.js');
     }
