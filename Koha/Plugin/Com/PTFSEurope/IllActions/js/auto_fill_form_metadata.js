@@ -12,7 +12,7 @@
                 $('#issue').val(message.issue).trigger('keyup');
                 $('#pages').val(message.page).trigger('keyup');
                 $('#publisher').val(message.publisher).trigger('keyup');
-                $('#article_title').val(message.title.join('. ')).trigger('keyup');
+                $('#article_title').val($('<div>').html(message.title.join('. ')).text()).trigger('keyup');
                 $('#chapter').val(message.title.join('. ')).trigger('keyup');
                 $('#volume').val(message.volume).trigger('keyup');
                 $('#article_author').val(message.author?.slice(0, 10).map(function(a) {
