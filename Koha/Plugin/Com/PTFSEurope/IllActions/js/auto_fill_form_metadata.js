@@ -32,6 +32,7 @@
             if(typeof data.result !== 'undefined'){
                 var uid = data.result.uids[0];
                 var result = data.result[uid];
+
                 $('#issue').val(result.issue).trigger('keyup');
                 $('#pages').val(result.pages).trigger('keyup');
                 $('#publisher').val(result.publishername).trigger('keyup');
@@ -48,7 +49,7 @@
                 $('#title').val(result.fulljournalname).trigger('keyup');
                 $('#issn').val(result.issn).trigger('keyup');
                 $('#eissn').val(result.essn).trigger('keyup');
-                $('#published_date').val(result.history?.find(item => item.pubstatus === "pmc-release")?.date.slice(0, 10).replace(/\//g, '-')).trigger('keyup');
+                $('#published_date').val(result?.sortpubdate.slice(0, 10).replace(/\//g, "-")).trigger('keyup');
                 $('#year').val(result.sortpubdate?.slice(0,4)).trigger('keyup');
             }
         }
