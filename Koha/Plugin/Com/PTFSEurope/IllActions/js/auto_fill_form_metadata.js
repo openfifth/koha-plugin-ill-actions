@@ -22,9 +22,9 @@
                     return a.given + ' ' + a.family;
                 }).join('. ')).trigger('keyup');
                 $('#title').val($('<div>').html(message['container-title'].join('. ')).text()).trigger('keyup');
-                $('#issn').val(message["issn-type"].find(item => item.type === "print")?.value).trigger('keyup');
-                $('#isbn').val(message["isbn-type"].find(item => item.type === "print")?.value).trigger('keyup');
-                $('#eissn').val(message["issn-type"].find(item => item.type === "electronic")?.value).trigger('keyup');
+                $('#issn').val(message["issn-type"]?.find(item => item.type === "print")?.value).trigger('keyup');
+                $('#isbn').val(message["isbn-type"]?.find(item => item.type === "print")?.value).trigger('keyup');
+                $('#eissn').val(message["issn-type"]?.find(item => item.type === "electronic")?.value).trigger('keyup');
                 if (message.published && message.published['date-parts'] && message.published['date-parts'][0] && message.published['date-parts'][0][0]) {
                     $('#year').val(message.published['date-parts'][0][0]).trigger('keyup');
                     $('#published_date').val(message.published['date-parts'][0].join('-')).trigger('keyup');
