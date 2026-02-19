@@ -21,13 +21,13 @@ use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION = "2.7.7";
+our $VERSION = "2.7.8";
 
 our $metadata = {
     name            => 'IllActions',
     author          => 'Open Fifth',
     date_authored   => '2023-10-30',
-    date_updated    => '2025-02-17',
+    date_updated    => '2025-02-19',
     minimum_version => '25.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
