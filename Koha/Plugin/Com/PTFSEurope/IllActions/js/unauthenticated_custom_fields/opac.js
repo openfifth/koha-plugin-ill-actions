@@ -2,7 +2,13 @@
 
     addCustomUnauthILLFields();
     var fieldset = $('legend:contains("Custom fields")').parent("fieldset");
-    fieldset.remove();
+    if(fieldset.length !== 0){
+      fieldset.remove();
+    } else{ //Bug 40105 is applied
+      $('#create_form ol#standard-fields').remove();
+      $("#create_form #custom-warning").remove();
+      $("#create_form #add-new-fields").remove();
+    }
 
   function addCustomUnauthILLFields() {
     if (!ill_actions_unauthenticated_custom_fields) return;
