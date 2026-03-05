@@ -47,6 +47,7 @@
     const custom_field_li_text_input = $("<input>");
     custom_field_li_text_input.attr("type", "text");
     custom_field_li_text_input.attr("name", "custom_value");
+    custom_field_li_text_input.addClass("form-control input-fluid");
     if (field.hasOwnProperty("required")) {
       custom_field_li_text_input.attr("required", true);
     }
@@ -72,6 +73,7 @@
     custom_field_li_select_hidden_input.val(field.code);
     custom_field_li.append($(custom_field_li_select_hidden_input));
     const custom_field_li_select = $("<select>");
+    custom_field_li_select.addClass("form-select input-fluid");
     if (field.hasOwnProperty("required")) {
       custom_field_li_select.attr("required", true);
     }
