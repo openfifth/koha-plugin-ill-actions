@@ -348,6 +348,8 @@
             <div class="flex flex-col space-y-1">
                 [% IF field && field.required %]
                     <input id="custom_fields_[% field.index %]_required" type="checkbox" checked name="custom_fields_[% field.index %]_required">
+                [% ELSIF field && !field.required %]
+                    <input id="custom_fields_[% field.index %]_required" type="checkbox" name="custom_fields_[% field.index %]_required">
                 [% ELSE %]
                     <input id="custom_fields_[% custom_fields_size %]_required" type="checkbox" name="custom_fields_[% custom_fields_size %]_required">
                 [% END %]
