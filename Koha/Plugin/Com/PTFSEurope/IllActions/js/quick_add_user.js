@@ -30,12 +30,24 @@ if (is_create_page || is_edit_page) {
       $("#quick_add_user_form").get(0).reportValidity();
     } else {
       $("#user-submit-spinner").show();
-      let patronAttributes = $("[id^='patron_attr_']").get().reduce((acc, current, index) => {
-        if (index % 2 === 0) {
-          acc.push({
-            value: $(current).val(),
-            type: $(current).next().val()
-          });
+
+    let patronAttributes = $("[id^='patron_attr_']")
+      .get()
+      .reduce((acc, current) => {
+        const id = current.id;
+        const match = id.match(/^patron_attr_(\d+)$/);
+
+        if (match) {
+          const attrNum = match[1];
+          const val = $(current).val();
+          const type = $(`#patron_attr_${attrNum}_code`).val();
+
+          if (type && val) {
+            acc.push({
+              type: type,
+              value: val,
+            });
+          }
         }
         return acc;
       }, []);
