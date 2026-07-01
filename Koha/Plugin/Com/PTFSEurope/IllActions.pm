@@ -21,13 +21,13 @@ use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION = "2.8.0";
+our $VERSION = "2.9.0";
 
 our $metadata = {
     name            => 'IllActions',
     author          => 'Open Fifth',
     date_authored   => '2023-10-30',
-    date_updated    => '2025-04-06',
+    date_updated    => '2026-07-01',
     minimum_version => '25.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
@@ -398,6 +398,13 @@ sub upgrade {
 
     my $dt = dt_from_string();
     $self->store_data( { last_upgraded => $dt->ymd('-') . ' ' . $dt->hms(':') } );
+
+    # Preserve existing behaviour: show all attributes was the previous default
+    my $config = $self->{config};
+    unless ( exists $config->{quick_add_user_show_all_attributes} ) {
+        $config->{quick_add_user_show_all_attributes} = 'on';
+        $self->store_data( { illactions_config => encode_json($config) } );
+    }
 
     return 1;
 }
