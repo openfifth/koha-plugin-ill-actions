@@ -175,6 +175,17 @@
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>
+                            <div id="ill_actions_quick_add_user_show_all_attributes" class="ill_config_field">
+                                <label for="quick_add_user_show_all_attributes_input">Show all patron attributes</label>
+                                [% IF config.quick_add_user_show_all_attributes %]
+                                    <input id="quick_add_user_show_all_attributes_input" class="required_input" type="checkbox" checked name="quick_add_user_show_all_attributes">
+                                [% ELSE %]
+                                    <input id="quick_add_user_show_all_attributes_input" class="required_input" type="checkbox" name="quick_add_user_show_all_attributes">
+                                [% END %]
+                                <a href="#" data-bs-toggle="tooltip" title="When enabled, all patron attribute types are shown in the quick add patron modal. When disabled, only mandatory attributes are shown.">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                </a>
+                            </div>
                             <div id="ill_actions_quick_add_user_default_patron_category" class="ill_config_field">
                                 <label for="quick_add_user_default_patron_category">Add default patron category</label>
                                 <select id="categorycode_entry" name="quick_add_user_default_patron_category">

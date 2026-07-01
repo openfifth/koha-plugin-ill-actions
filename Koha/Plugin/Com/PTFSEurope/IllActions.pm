@@ -163,11 +163,12 @@ sub ill_table_actions {
 }
 
 sub get_patron_attribute_types_template {
-    my ($self) = @_;
+    my ( $self, $query ) = @_;
+    $query //= { mandatory => 1 };
 
     if ( Koha::Patron::Attribute::Types->can('patron_attributes_form') ) {
         my $template = C4::Templates::gettemplate( $self->mbf_path('patron-attribute-types.tt'), 'intranet', undef );
-        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, {} );
+        Koha::Patron::Attribute::Types::patron_attributes_form( $template, undef, undef, $query );
         return $template->output;
     }
     return '';
@@ -237,7 +238,8 @@ sub intranet_js {
         if $self->{config}->{default_library_to_user_library};
 
     if( $self->{config}->{quick_add_user} ){
-        my $attribute_types_template = $self->get_patron_attribute_types_template();
+        my $attr_query = $self->{config}->{quick_add_user_show_all_attributes} ? {} : { mandatory => 1 };
+        my $attribute_types_template = $self->get_patron_attribute_types_template($attr_query);
         if ($attribute_types_template) {
             $script .= 'const mandatory_patron_attribute_types = ' . encode_json( $attribute_types_template ) . ';';
         }
