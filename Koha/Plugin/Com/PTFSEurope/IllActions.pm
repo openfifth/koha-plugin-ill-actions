@@ -399,12 +399,13 @@ sub upgrade {
     my $dt = dt_from_string();
     $self->store_data( { last_upgraded => $dt->ymd('-') . ' ' . $dt->hms(':') } );
 
-    # Preserve existing behaviour: show all attributes was the previous default
-    my $config = $self->{config};
-    unless ( exists $config->{quick_add_user_show_all_attributes} ) {
-        $config->{quick_add_user_show_all_attributes} = 'on';
-        $self->store_data( { illactions_config => encode_json($config) } );
-    }
+    # Re-read from DB — $self->{config} may be stale if install() ran after new()
+    my $config = decode_json( $self->retrieve_data('illactions_config') || '{}' );
+
+    # Preserve existing behaviour: before this option existed, all attributes were shown
+    $config->{quick_add_user_show_all_attributes} //= 'on';
+
+    $self->store_data( { illactions_config => encode_json($config) } );
 
     return 1;
 }
