@@ -11,6 +11,8 @@ if (is_create_page || is_edit_page) {
   $("#quick_add_user_button").on("click", function () {
     if (!$("#libraries_quick_add").children("option").length) {
       _GETLibraries();
+    } else {
+      _populateLibrary();
     }
     if (!$("#categorycode_entry_quick_add").children("optgroup").length && quick_add_user_patron_categories) {
       _PopulatePatronCategories();
@@ -161,11 +163,22 @@ if (is_create_page || is_edit_page) {
             $("<option></option>").val(text.library_id).html(text.name)
           );
         });
+        _populateLibrary();
       },
       error: function (data) {
         console.log(data);
       },
     });
+  }
+
+  /**
+   * Uses the destination library from the ILL request to populate the new user
+   * modal's library field.
+   */
+  function _populateLibrary() {
+    const val = $("#library").val();
+    if(!val) return;
+    $("#libraries_quick_add").val(val);
   }
 
   /**
