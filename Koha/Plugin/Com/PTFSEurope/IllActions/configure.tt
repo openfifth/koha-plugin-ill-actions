@@ -144,7 +144,7 @@
                                 [% ELSE %]
                                     <input id="show_new_requests_in_mainpage_input" class="required_input" type="checkbox" name="show_new_requests_in_mainpage">
                                 [% END %]
-                                <a href="#" data-bs-toggle="tooltip" title="Show 'New ILL requests' link in mainpage in relation to logged in staff user">
+                                <a href="#" data-bs-toggle="tooltip" title="Show 'New ILL requests' link in mainpage in relation to logged in staff user, using their ILL group or otherwise their branchcode">
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>
