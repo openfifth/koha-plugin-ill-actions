@@ -1,11 +1,23 @@
 $(() => {
   // if there are ILL requests with status = NEW
   if ($(".biglinks-list .icon_ill").length) {
-    let branchcode = $(".logged-in-branch-code").first();
+    let branchcode = $(".logged-in-branch-code").first().text();
+
+    // If we have a group mapping, this overrides the current branchcode
+    if(group_branchcodes && Object.keys(group_branchcodes).length > 0) {
+        // Select the group with the most constituent libraries
+      const largest_group = Object.keys(group_branchcodes)
+            .toSorted((x, y) => group_branchcodes[y].length - group_branchcodes[x].length)
+        [0];
+      branchcode = {
+        "=": group_branchcodes[largest_group]
+      };
+    }
+
     fetch(
-      '/api/v1/ill/requests?_per_page=-1&q={"status":{"-in":["NEW","UNAUTH"]},"status_alias":null,"branchcode":"' +
-        branchcode.text() +
-        '"}'
+      '/api/v1/ill/requests?_per_page=-1&q={"status":{"-in":["NEW","UNAUTH"]},"status_alias":null,"branchcode":' +
+            JSON.stringify(branchcode) +
+        '}'
     )
       .then((response) => response.json())
       .then((requests) => {
