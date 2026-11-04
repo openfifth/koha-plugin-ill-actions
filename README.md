@@ -40,3 +40,7 @@ Workflow enhancements for the Koha ILL module. All features are individually tog
 ## Maintainer
 
 [Open Fifth](https://openfifth.co.uk)
+
+## Licence
+
+This plugin is licensed under the GNU Affero General Public License v3.0 or later (`AGPL-3.0-or-later`). See [LICENSE](LICENSE).
