@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.2] - 2026-11-05
+
 ### Changed
 
 - Adopt the plugin template's CI and release tooling: `npm run release:*` scripts and preflight, `DEVELOPMENT.md`, a `t/00-load.t` smoke test and the GitHub Actions workflow (regenerated from the template).
 
-[Unreleased]: https://github.com/openfifth/koha-plugin-ill-actions/compare/v2.9.1...HEAD
+[Unreleased]: https://github.com/openfifth/koha-plugin-ill-actions/compare/v2.9.2...HEAD
+[2.9.2]: https://github.com/openfifth/koha-plugin-ill-actions/compare/v2.9.1...v2.9.2
