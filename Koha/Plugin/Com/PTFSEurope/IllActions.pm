@@ -219,12 +219,23 @@ sub get_ill_group_mapping {
     return $group_branchcodes;
 }
 
+sub _csp_nonce_attr {
+    my ($self) = @_;
+
+    my $nonce = eval {
+        require Koha::ContentSecurityPolicy;
+        my $csp = Koha::ContentSecurityPolicy->new;
+        $csp->is_enabled ? $csp->get_nonce : undef;
+    };
+
+    return $nonce ? qq{ nonce="$nonce"} : '';
+}
+
 sub intranet_head {
     my ($self) = @_;
 
     # CSS produced by SCSS changes in bug 36285, applied to ILL only
-    return q|
-        <style>
+    return '<style' . $self->_csp_nonce_attr . '>' . q|
             #interlibraryloans fieldset.rows li .v-select:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
             #interlibraryloans fieldset.rows li select:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
             #interlibraryloans fieldset.rows li textarea:not([type=submit]):not([type=search]):not([type=button]):not([type=checkbox]):not([type=radio]),
@@ -262,7 +273,7 @@ sub intranet_js {
     my $script;
 
     if ($self->{cgi}->url =~ /mainpage.pl/){
-        $script = '<script>';
+        $script = '<script' . $self->_csp_nonce_attr . '>';
         $script .= 'const group_branchcodes = ' . encode_json( $self->get_ill_group_mapping ) . ';';
         $script .= $self->mbf_read('js/show_new_requests_in_mainpage.js')
             if $self->{config}->{show_new_requests_in_mainpage};
@@ -273,7 +284,7 @@ sub intranet_js {
 
     return unless $self->{cgi}->url =~ /ill-requests.pl/;
 
-    $script = '<script>';
+    $script = '<script' . $self->_csp_nonce_attr . '>';
     $script .= $self->mbf_read('js/init.js');
     $script .= 'const ill_actions_plugin_config = ' . encode_json( $self->{config} ) . ';';
     $script .= $self->mbf_read('js/new_request_for_user_table_button.js')
@@ -327,7 +338,7 @@ sub opac_js {
 
     return unless $self->{cgi}->url =~ /opac-illrequests.pl/;
 
-    my $script = '<script>';
+    my $script = '<script' . $self->_csp_nonce_attr . '>';
     $script .= $self->mbf_read('js/auto_fill_form_metadata.js')
         if $self->{config}->{auto_fill_form_metadata_opac};
 
