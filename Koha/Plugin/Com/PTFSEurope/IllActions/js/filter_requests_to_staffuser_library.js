@@ -1,5 +1,5 @@
 if (is_table_page) {
-    if(group_branchcodes && Object.keys(group_branchcodes).length > 0 && $("#illfilter_group").length > 0) {
+    if(typeof group_branchcodes !== "undefined" && group_branchcodes && Object.keys(group_branchcodes).length > 0 && $("#illfilter_group").length > 0) {
         // Select the group with the most constituent libraries
         const largest_group = Object.keys(group_branchcodes)
               .toSorted((x, y) => group_branchcodes[y].length - group_branchcodes[x].length)
