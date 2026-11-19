@@ -144,7 +144,7 @@
                                 [% ELSE %]
                                     <input id="show_new_requests_in_mainpage_input" class="required_input" type="checkbox" name="show_new_requests_in_mainpage">
                                 [% END %]
-                                <a href="#" data-bs-toggle="tooltip" title="Show 'New ILL requests' link in mainpage in relation to logged in staff user">
+                                <a href="#" data-bs-toggle="tooltip" title="Show 'New ILL requests' link in mainpage in relation to logged in staff user, using their ILL group or otherwise their branchcode">
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>
@@ -234,13 +234,13 @@
                             </div>
                             <legend>Filter requests table</legend>
                             <div id="ill_actions_filter_requests_to_staffuser_library" class="ill_config_field">
-                                <label for="filter_requests_to_staffuser_library">Default to staff member's library</label>
+                                <label for="filter_requests_to_staffuser_library">Default to staff member's library or ILL group</label>
                                 [% IF config.filter_requests_to_staffuser_library %]
                                     <input id="filter_requests_to_staffuser_library" class="required_input" type="checkbox" checked name="filter_requests_to_staffuser_library">
                                 [% ELSE %]
                                     <input id="filter_requests_to_staffuser_library" class="required_input" type="checkbox" name="filter_requests_to_staffuser_library">
                                 [% END %]
-                                <a href="#" data-bs-toggle="tooltip" title="Upon visiting the ILL requests table, the table is filtered to the logged in user's library by default. The user can change this afterwards.">
+                                <a href="#" data-bs-toggle="tooltip" title="Upon visiting the ILL requests table, the table is initially filtered to the logged in user's largest ILL group, or their library if they are not in any groups. The user can change this afterwards.">
                                     <i class="fa-solid fa-circle-question"></i>
                                 </a>
                             </div>

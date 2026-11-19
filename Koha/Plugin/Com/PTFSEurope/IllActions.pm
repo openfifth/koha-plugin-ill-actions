@@ -34,17 +34,18 @@ use C4::Context;
 use C4::Templates;
 use Koha::AuthorisedValueCategories;
 use Koha::Libraries;
+use Koha::Library::Groups;
 use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION         = '2.9.2';
+our $VERSION         = '2.9.3';
 
 our $metadata = {
     name            => 'IllActions',
     author          => 'Open Fifth',
     date_authored   => '2023-10-30',
-    date_updated    => '2026-11-05',
+    date_updated    => '2026-11-19',
     minimum_version => '25.05.00.000',
     maximum_version => undef,
     version         => $VERSION,
@@ -193,6 +194,31 @@ sub get_patron_attribute_types_template {
     return '';
 }
 
+sub get_ill_group_mapping {
+    my ($self) = @_;
+
+    # Copied from ill-requests.pl
+    my @groups = Koha::Library::Groups->search( { branchcode => undef }, { order_by => 'title' } )->as_list;
+
+    # Check we have the ft_ill_group column
+    return {} unless @groups;
+    return {} unless $groups[0]->_result->has_column('ft_ill_group');
+
+    @groups = grep {
+        Koha::Library::Groups->get_root_ancestor( { id => $_->id } )->ft_ill_group
+            && grep { $_->branchcode eq C4::Context->mybranch }
+            $_->all_libraries
+    } @groups;
+
+    my $group_branchcodes;
+    foreach my $group (@groups) {
+        my @branchcodes = map { $_->branchcode } $group->all_libraries;
+        $group_branchcodes->{ $group->id } = \@branchcodes;
+    }
+
+    return $group_branchcodes;
+}
+
 sub intranet_head {
     my ($self) = @_;
 
@@ -237,6 +263,7 @@ sub intranet_js {
 
     if ($self->{cgi}->url =~ /mainpage.pl/){
         $script = '<script>';
+        $script .= 'const group_branchcodes = ' . encode_json( $self->get_ill_group_mapping ) . ';';
         $script .= $self->mbf_read('js/show_new_requests_in_mainpage.js')
             if $self->{config}->{show_new_requests_in_mainpage};
         $script .= '</script>';
