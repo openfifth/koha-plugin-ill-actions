@@ -39,7 +39,7 @@ use Koha::Patrons;
 use Koha::Patron::Attribute::Types;
 use Koha::Patron::Categories;
 
-our $VERSION         = '2.9.3';
+our $VERSION         = '2.9.4';
 
 our $metadata = {
     name            => 'IllActions',

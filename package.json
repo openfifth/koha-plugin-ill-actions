@@ -6,8 +6,8 @@
     "module": "Koha::Plugin::Com::PTFSEurope::IllActions",
     "pm_path": "Koha/Plugin/Com/PTFSEurope/IllActions.pm"
   },
-  "version": "2.9.3",
-  "previous_version": "2.9.2",
+  "version": "2.9.4",
+  "previous_version": "2.9.3",
   "scripts": {
     "version:patch": "node increment_version.js patch | cat",
     "version:minor": "node increment_version.js minor | cat",
