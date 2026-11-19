@@ -261,7 +261,7 @@
   // Make the call to Crossref
   var crossref = function(doi) {
       if (doi.length === 0) return;
-      var url = 'https://api.crossref.org/works/' + doi.trim();
+      var url = '/api/v1/contrib/ill_actions/metadata/crossref?doi=' + encodeURIComponent(doi.trim());
       $.ajax({
           dataType: "json",
           url: url,
@@ -282,7 +282,7 @@
   var pubmedid = function(pubmedid) {
       if (pubmedid.length === 0) return;
       let clean_pubmedid = pubmedid.trim();
-      var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' + clean_pubmedid;
+      var url = '/api/v1/contrib/ill_actions/metadata/pubmed?pubmedid=' + encodeURIComponent(clean_pubmedid);
       $.ajax({
           dataType: "json",
           url: url,

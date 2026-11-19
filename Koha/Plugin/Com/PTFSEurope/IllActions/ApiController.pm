@@ -18,6 +18,8 @@ package Koha::Plugin::Com::PTFSEurope::IllActions::ApiController;
 use Modern::Perl;
 
 use Mojo::Base 'Mojolicious::Controller';
+use Mojo::UserAgent;
+use Mojo::Util qw( url_escape );
 
 =head1 API
 
@@ -66,6 +68,56 @@ sub get_branchcode_from_cardnumber {
         status  => '200',
         openapi => $patron->branchcode
     );
+}
+
+=head3 crossref_metadata
+
+Returns the Crossref metadata for a given DOI
+
+=cut
+
+sub crossref_metadata {
+    my $c = shift->openapi->valid_input or return;
+
+    my $doi = $c->param('doi') =~ s/^\s+|\s+$//gr;
+    return $c->render( status => 400, openapi => { error => "Invalid DOI" } )
+        unless $doi =~ m{^10\.\S+/\S+$};
+
+    return _render_external_json( $c, 'https://api.crossref.org/works/' . url_escape($doi) );
+}
+
+=head3 pubmed_metadata
+
+Returns the PubMed summary for a given PubMed ID
+
+=cut
+
+sub pubmed_metadata {
+    my $c = shift->openapi->valid_input or return;
+
+    my $pubmedid = $c->param('pubmedid') =~ s/^\s+|\s+$//gr;
+    return $c->render( status => 400, openapi => { error => "Invalid PubMed ID" } )
+        unless $pubmedid =~ /^\d+$/;
+
+    return _render_external_json(
+        $c,
+        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=' . $pubmedid
+    );
+}
+
+sub _render_external_json {
+    my ( $c, $url ) = @_;
+
+    my $ua   = Mojo::UserAgent->new->connect_timeout(5)->request_timeout(10)->max_redirects(3);
+    my $json = eval {
+        my $res = $ua->get($url)->result;
+        $res->is_success ? $res->json : undef;
+    };
+
+    return $c->render( status => 502, openapi => { error => "Lookup failed" } )
+        unless ref $json eq 'HASH';
+
+    return $c->render( status => 200, openapi => $json );
 }
 
 1;

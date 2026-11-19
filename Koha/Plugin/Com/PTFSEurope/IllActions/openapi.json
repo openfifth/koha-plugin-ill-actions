@@ -88,5 +88,103 @@
         }
       }
     }
+  },
+  "/metadata/crossref": {
+    "get": {
+      "x-mojo-to": "Com::PTFSEurope::IllActions::ApiController#crossref_metadata",
+      "operationId": "GetCrossrefMetadata",
+      "tags": ["ill"],
+      "parameters": [
+        {
+          "name": "doi",
+          "in": "query",
+          "description": "DOI to look up in Crossref",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Metadata as returned by the external service",
+          "schema": {
+            "type": "object"
+          }
+        },
+        "400": {
+          "description": "Invalid identifier",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "The external service could not be reached or returned an error",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/metadata/pubmed": {
+    "get": {
+      "x-mojo-to": "Com::PTFSEurope::IllActions::ApiController#pubmed_metadata",
+      "operationId": "GetPubmedMetadata",
+      "tags": ["ill"],
+      "parameters": [
+        {
+          "name": "pubmedid",
+          "in": "query",
+          "description": "PubMed ID to look up in PubMed",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "produces": ["application/json"],
+      "responses": {
+        "200": {
+          "description": "Metadata as returned by the external service",
+          "schema": {
+            "type": "object"
+          }
+        },
+        "400": {
+          "description": "Invalid identifier",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "The external service could not be reached or returned an error",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error": {
+                "description": "An explanation for the error",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
